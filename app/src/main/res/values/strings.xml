@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">MuseoApp</string>
+    <string name="login_mail">Correo electrónico...</string>
+    <string name="login_password">Contraseña...</string>
+    <string name="button_login">Iniciar sesión</string>
+    <string name="button_signup">Registrarse</string>
+    <string name="button_login_google">Google</string>
+    <string name="button_login_apple">Apple</string>
+    <string name="button_forgot_password">¿Has olvidado la contraseña?</string>
+    <string name="others_login">Inicia sesión con...</string>
 </resources>
