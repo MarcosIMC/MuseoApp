@@ -8,4 +8,8 @@
     <string name="button_login_apple">Apple</string>
     <string name="button_forgot_password">¿Has olvidado la contraseña?</string>
     <string name="others_login">Inicia sesión con...</string>
+    <string name="editTextNameRegister">Nombre...</string>
+    <string name="editTextSurnameRegister">Apellidos...</string>
+    <string name="editTextTlfRegister">Número de teléfono...</string>
+
 </resources>
