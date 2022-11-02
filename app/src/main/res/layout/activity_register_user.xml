@@ -17,39 +17,33 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/inputTextNameRegister"
+    <EditText
+        android:id="@+id/editTextTextNameRegister"
         android:layout_width="350dp"
         android:layout_height="50dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="45dp"
         android:layout_marginEnd="20dp"
+        android:ems="10"
+        android:hint="@string/editTextNameRegister"
+        android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logoViewRegister">
+        app:layout_constraintTop_toBottomOf="@+id/logoViewRegister" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/editTextNameRegister" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/inputTextSurnameRegister"
+    <EditText
+        android:id="@+id/editTextTextSurname"
         android:layout_width="350dp"
         android:layout_height="50dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="25dp"
         android:layout_marginEnd="20dp"
+        android:ems="10"
+        android:hint="@string/editTextSurnameRegister"
+        android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inputTextNameRegister">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/editTextSurnameRegister" />
-    </com.google.android.material.textfield.TextInputLayout>
+        app:layout_constraintTop_toBottomOf="@+id/editTextTextNameRegister" />
 
     <EditText
         android:id="@+id/editTextMailRegister"
@@ -63,7 +57,7 @@
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inputTextSurnameRegister" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextTextSurname" />
 
     <EditText
         android:id="@+id/editTextPasswordRegister"
@@ -104,4 +98,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextPhoneRegister" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

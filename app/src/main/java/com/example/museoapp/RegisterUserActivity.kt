@@ -23,14 +23,14 @@ class RegisterUserActivity : AppCompatActivity() {
 
         val btnRegister = findViewById<Button>(R.id.buttonRegisterUser)
         btnRegister.setOnClickListener {
-            var name = findViewById<TextInputLayout>(R.id.inputTextNameRegister)
-            var surname = findViewById<TextInputLayout>(R.id.inputTextSurnameRegister)
+            var name = findViewById<EditText>(R.id.editTextTextNameRegister)
+            var surname = findViewById<EditText>(R.id.editTextTextSurname)
             var email = findViewById<EditText>(R.id.editTextMailRegister)
             var password = findViewById<EditText>(R.id.editTextPasswordRegister)
             var tlf = findViewById<EditText>(R.id.editTextPhoneRegister)
 
             authObj.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString(), auth,
-            name.toString(), surname.toString(), tlf.getText().toString().toLong(), "", this)
+            name.getText().toString(), surname.getText().toString(), tlf.getText().toString().toLong(), "", this)
         }
     }
 
