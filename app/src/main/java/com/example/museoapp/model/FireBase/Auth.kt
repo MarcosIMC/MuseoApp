@@ -1,9 +1,8 @@
-package com.example.museoapp.FireBase
+package com.example.museoapp.model.FireBase
 
 import android.content.ContentValues.TAG
 import android.net.Uri
 import android.util.Log
-import android.widget.Toast
 import com.example.museoapp.LoginActivity
 import com.example.museoapp.RegisterUserActivity
 import com.example.museoapp.model.UserModel
@@ -13,18 +12,27 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
 class Auth {
     lateinit var auth: FirebaseAuth
-    //private lateinit var database:DatabaseReference
     var myRef: DatabaseReference? = null
+    var user: FirebaseUser? = null
+    var errorMessage: String? = ""
 
     @JvmName("getAuth1")
     fun getAuth(): FirebaseAuth{
         auth = Firebase.auth
         return auth
+    }
+
+    @JvmName("getUser1")
+    fun getUser(): FirebaseUser? {
+        return user
+    }
+
+    fun getError(): String? {
+        return errorMessage
     }
 
     fun initializeDatabaseRef() {
@@ -41,26 +49,17 @@ class Auth {
         return false
     }
 
-    fun signInWithEmailAndPassword(
-        email: String,
-        password: String,
-        activity: LoginActivity,
-        auth: FirebaseAuth
-    ){
+    fun signInWithEmailAndPassword(email: String, password: String, activity: LoginActivity, auth: FirebaseAuth){
         auth.signInWithEmailAndPassword(email,
             password
         ).addOnCompleteListener(activity) { task ->
             if (task.isSuccessful){
                 Log.d(TAG, "Inicio de sesión: success")
-                val user = this.auth.currentUser
-                if (user != null) {
-                    activity.updateUI(user)
-                }
+                user = this.auth.currentUser
             }else{
                 Log.w(TAG, "signInWithEmail:failure", task.exception)
-                Toast.makeText(activity, "Authentication failed.",
-                    Toast.LENGTH_SHORT).show()
-                activity.updateUI(null)
+                errorMessage = "Authentication failed."
+                user = null
             }
         }
     }
@@ -81,14 +80,7 @@ class Auth {
             }
     }
 
-    private fun updateUserData(
-        user: FirebaseUser?,
-        name: String,
-        surname: String,
-        tlf: Long,
-        image: String,
-        activity: RegisterUserActivity
-    ) {
+    private fun updateUserData(user: FirebaseUser?, name: String, surname: String, tlf: Long, image: String, activity: RegisterUserActivity) {
         val profileUserUpdates = userProfileChangeRequest {
             displayName = name
             photoUri = Uri.parse(image)
@@ -98,18 +90,14 @@ class Auth {
             if (task.isSuccessful){
                 Log.d(TAG, "User profile updated")
                 writeNewUser(user.uid, name, surname, tlf, image, 0)
-                activity.updateUI(user)
+                //activity.updateUI(user)
             }else{
-                Toast.makeText(activity, "Register failed.",
-                    Toast.LENGTH_SHORT).show()
-                activity.updateUI(null)
+                errorMessage = "Register failed."
             }
         }
     }
 
-    private fun writeNewUser(userId: String, name: String, surname: String, tlf: Long, image: String,
-        role: Int
-    ) {
+    private fun writeNewUser(userId: String, name: String, surname: String, tlf: Long, image: String, role: Int) {
         val user = UserModel(name, surname, image, tlf, role)
         initializeDatabaseRef()
         println("USER UID: "+ userId)
