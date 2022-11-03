@@ -3,7 +3,7 @@ package com.example.museoapp
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
-import com.example.museoapp.FireBase.Auth
+import com.example.museoapp.model.FireBase.Auth
 import com.example.museoapp.model.UserModel
 import com.google.firebase.auth.FirebaseUser
 
