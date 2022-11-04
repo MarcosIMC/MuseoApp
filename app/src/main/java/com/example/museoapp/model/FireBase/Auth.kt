@@ -21,9 +21,8 @@ class Auth {
     var errorMessage: String? = ""
 
     @JvmName("getAuth1")
-    fun getAuth(): FirebaseAuth{
+    fun initializeAuth(){
         auth = Firebase.auth
-        return auth
     }
 
     @JvmName("getUser1")
@@ -40,8 +39,8 @@ class Auth {
 
     }
 
-    fun checkUserSigned(auth: FirebaseAuth): Boolean{
-        val currentUser = auth.currentUser
+    fun checkUserSigned(): Boolean{
+        val currentUser = auth?.currentUser
 
         if(currentUser != null){
             return true
@@ -49,13 +48,11 @@ class Auth {
         return false
     }
 
-    fun signInWithEmailAndPassword(email: String, password: String, activity: LoginActivity, auth: FirebaseAuth){
-        auth.signInWithEmailAndPassword(email,
-            password
-        ).addOnCompleteListener(activity) { task ->
+    fun signInWithEmailAndPassword(email: String, password: String, activity: LoginActivity){
+        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(activity) { task ->
             if (task.isSuccessful){
                 Log.d(TAG, "Inicio de sesión: success")
-                user = this.auth.currentUser
+                user = Firebase.auth.currentUser
             }else{
                 Log.w(TAG, "signInWithEmail:failure", task.exception)
                 errorMessage = "Authentication failed."
@@ -64,43 +61,52 @@ class Auth {
         }
     }
 
-    fun createUserWithEmailAndPassword(email: String, password: String, auth: FirebaseAuth,
+    fun createUserWithEmailAndPassword(email: String, password: String,
     name:String, surname:String, tlf:Long, image:String, activity: RegisterUserActivity){
-        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(activity) {task ->
+        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(activity) { task ->
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "createUserWithEmail:success")
-                    val user = auth.currentUser
-                    updateUserData(user, name, surname, tlf, image, activity)
+                    user = this.auth.currentUser
+                    updateUserData(this.auth.currentUser, name, surname, tlf, image, activity)
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w(TAG, "createUserWithEmail:failure", task.exception)
-                    return@addOnCompleteListener
+                    errorMessage = "createUserWithEmail:failure"
+                    user = null
+                    //return@addOnCompleteListener
                 }
             }
     }
 
-    private fun updateUserData(user: FirebaseUser?, name: String, surname: String, tlf: Long, image: String, activity: RegisterUserActivity) {
+    private fun updateUserData(currentUser: FirebaseUser?, name: String, surname: String, tlf: Long, image: String, activity: RegisterUserActivity) {
         val profileUserUpdates = userProfileChangeRequest {
             displayName = name
             photoUri = Uri.parse(image)
         }
 
-        user!!.updateProfile(profileUserUpdates).addOnCompleteListener(activity){ task ->
+        currentUser!!.updateProfile(profileUserUpdates).addOnCompleteListener(activity){ task ->
             if (task.isSuccessful){
                 Log.d(TAG, "User profile updated")
-                writeNewUser(user.uid, name, surname, tlf, image, 0)
-                //activity.updateUI(user)
+                writeNewUser(currentUser.uid, name, surname, tlf, image, 0)
             }else{
                 errorMessage = "Register failed."
+                user = null
             }
         }
     }
 
     private fun writeNewUser(userId: String, name: String, surname: String, tlf: Long, image: String, role: Int) {
-        val user = UserModel(name, surname, image, tlf, role)
+        val newUser = UserModel(name, surname, image, tlf, role)
         initializeDatabaseRef()
         println("USER UID: "+ userId)
-        myRef?.child("users")?.child(userId)?.setValue(user)
+        myRef?.child("users")?.child(userId)?.setValue(newUser)
+            ?.addOnCompleteListener {
+                user = auth.currentUser
+            }
+            ?.addOnFailureListener {
+                user = null
+                errorMessage = "Creación fallida"
+            }
     }
 }

@@ -41,7 +41,7 @@ class LoginActivity : AppCompatActivity() {
 
     public override fun onStart() {
         super.onStart()
-
+        loginViewModel.initializeAuth()
         if(loginViewModel.checkLogged()){
             intent = Intent(this, ProfileUserActivity::class.java)
             startActivity(intent)
