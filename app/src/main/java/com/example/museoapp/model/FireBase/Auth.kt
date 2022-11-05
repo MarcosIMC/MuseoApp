@@ -3,6 +3,7 @@ package com.example.museoapp.model.FireBase
 import android.content.ContentValues.TAG
 import android.net.Uri
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import com.example.museoapp.LoginActivity
 import com.example.museoapp.RegisterUserActivity
 import com.example.museoapp.model.UserModel
@@ -14,25 +15,16 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
 
-class Auth {
-    lateinit var auth: FirebaseAuth
+class Auth() {
+    private lateinit var auth: FirebaseAuth
     var myRef: DatabaseReference? = null
-    var user: FirebaseUser? = null
-    var errorMessage: String? = ""
 
-    @JvmName("getAuth1")
-    fun getAuth(): FirebaseAuth{
+    init {
         auth = Firebase.auth
+    }
+
+    fun getAuth():FirebaseAuth?{
         return auth
-    }
-
-    @JvmName("getUser1")
-    fun getUser(): FirebaseUser? {
-        return user
-    }
-
-    fun getError(): String? {
-        return errorMessage
     }
 
     fun initializeDatabaseRef() {
@@ -40,7 +32,7 @@ class Auth {
 
     }
 
-    fun checkUserSigned(auth: FirebaseAuth): Boolean{
+    fun checkUserSigned(): Boolean{
         val currentUser = auth.currentUser
 
         if(currentUser != null){
@@ -49,58 +41,90 @@ class Auth {
         return false
     }
 
-    fun signInWithEmailAndPassword(email: String, password: String, activity: LoginActivity, auth: FirebaseAuth){
-        auth.signInWithEmailAndPassword(email,
-            password
-        ).addOnCompleteListener(activity) { task ->
+    fun signInWithEmailAndPassword(email: String, password: String, activity: LoginActivity, userFirebase: MutableLiveData<FirebaseUser?>, error: MutableLiveData<String?>){
+        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(activity) { task ->
             if (task.isSuccessful){
                 Log.d(TAG, "Inicio de sesión: success")
-                user = this.auth.currentUser
+                userFirebase.value = auth.currentUser
             }else{
                 Log.w(TAG, "signInWithEmail:failure", task.exception)
-                errorMessage = "Authentication failed."
-                user = null
+                error.value = "Authentication failed."
+                userFirebase.value = null
             }
         }
     }
 
-    fun createUserWithEmailAndPassword(email: String, password: String, auth: FirebaseAuth,
-    name:String, surname:String, tlf:Long, image:String, activity: RegisterUserActivity){
-        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(activity) {task ->
+    fun createUserWithEmailAndPassword(
+        email: String,
+        password: String,
+        name: String,
+        surname: String,
+        tlf: Long,
+        image: String,
+        activity: RegisterUserActivity,
+        userFirebase: MutableLiveData<FirebaseUser?>,
+        error: MutableLiveData<String?>
+    ){
+        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(activity) { task ->
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "createUserWithEmail:success")
-                    val user = auth.currentUser
-                    updateUserData(user, name, surname, tlf, image, activity)
+                    updateUserData(auth.currentUser, name, surname, tlf, image, activity, userFirebase, error)
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w(TAG, "createUserWithEmail:failure", task.exception)
-                    return@addOnCompleteListener
+                    error.value = "createUserWithEmail:failure"
+                    userFirebase.value = null
                 }
             }
     }
 
-    private fun updateUserData(user: FirebaseUser?, name: String, surname: String, tlf: Long, image: String, activity: RegisterUserActivity) {
+    private fun updateUserData(
+        currentUser: FirebaseUser?,
+        name: String,
+        surname: String,
+        tlf: Long,
+        image: String,
+        activity: RegisterUserActivity,
+        userFirebase: MutableLiveData<FirebaseUser?>,
+        error: MutableLiveData<String?>
+    ) {
         val profileUserUpdates = userProfileChangeRequest {
             displayName = name
             photoUri = Uri.parse(image)
         }
 
-        user!!.updateProfile(profileUserUpdates).addOnCompleteListener(activity){ task ->
+        currentUser!!.updateProfile(profileUserUpdates).addOnCompleteListener(activity){ task ->
             if (task.isSuccessful){
                 Log.d(TAG, "User profile updated")
-                writeNewUser(user.uid, name, surname, tlf, image, 0)
-                //activity.updateUI(user)
+                writeNewUser(currentUser.uid, name, surname, tlf, image, 0, userFirebase, error)
             }else{
-                errorMessage = "Register failed."
+                error.value = "Register failed."
+                userFirebase.value = null
             }
         }
     }
 
-    private fun writeNewUser(userId: String, name: String, surname: String, tlf: Long, image: String, role: Int) {
-        val user = UserModel(name, surname, image, tlf, role)
+    private fun writeNewUser(
+        userId: String,
+        name: String,
+        surname: String,
+        tlf: Long,
+        image: String,
+        role: Int,
+        userFirebase: MutableLiveData<FirebaseUser?>,
+        error: MutableLiveData<String?>
+    ) {
+        val newUser = UserModel(name, surname, image, tlf, role)
         initializeDatabaseRef()
         println("USER UID: "+ userId)
-        myRef?.child("users")?.child(userId)?.setValue(user)
+        myRef?.child("users")?.child(userId)?.setValue(newUser)
+            ?.addOnCompleteListener {
+                userFirebase.value = auth.currentUser
+            }
+            ?.addOnFailureListener {
+                error.value = "Creación fallida"
+                userFirebase.value = null
+            }
     }
 }

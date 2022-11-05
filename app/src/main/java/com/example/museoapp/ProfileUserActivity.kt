@@ -16,7 +16,7 @@ class ProfileUserActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile_user)
 
-        val currentUser = auth.currentUser
+        val currentUser = auth?.currentUser
 
         val txtName = findViewById<TextView>(R.id.textViewName)
         val txtEmail = findViewById<TextView>(R.id.textViewEmail)
