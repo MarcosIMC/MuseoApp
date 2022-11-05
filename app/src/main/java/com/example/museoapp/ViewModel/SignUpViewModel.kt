@@ -8,15 +8,12 @@ import com.google.firebase.auth.FirebaseUser
 
 class SignUpViewModel : ViewModel() {
     private var authObj = Auth()
-    //private var auth = authObj.getAuth()
 
     val userFirebase = MutableLiveData<FirebaseUser?>()
     val error = MutableLiveData<String?>()
 
     fun createUser(email : String, password : String, name : String, surname : String, tlf : Long)  {
         val activity = RegisterUserActivity()
-        authObj.createUserWithEmailAndPassword(email, password, name, surname, tlf, "", activity)
-        userFirebase.postValue(authObj.getUser())
-        error.postValue(authObj.getError())
+        authObj.createUserWithEmailAndPassword(email, password, name, surname, tlf, "", activity, userFirebase, error)
     }
 }

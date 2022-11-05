@@ -22,6 +22,10 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.buttonLogin.setOnClickListener { loginViewModel.signInWithEmail(binding.textEmail.text.toString(), binding.textPassword.text.toString()) }
+        binding.buttonSignup.setOnClickListener { intent = Intent(this, RegisterUserActivity::class.java)
+            startActivity(intent) }
+
         loginViewModel.userFirebase.observe(this, Observer { currentUser ->
             if (currentUser != null){
                 updateUI()
@@ -33,15 +37,10 @@ class LoginActivity : AppCompatActivity() {
             Toast.makeText(applicationContext, errorMessage,
                 Toast.LENGTH_SHORT).show()
         })
-
-        binding.buttonLogin.setOnClickListener { loginViewModel.signInWithEmail(binding.textEmail.text.toString(), binding.textPassword.text.toString()) }
-        binding.buttonSignup.setOnClickListener { intent = Intent(this, RegisterUserActivity::class.java)
-            startActivity(intent) }
     }
 
     public override fun onStart() {
         super.onStart()
-        loginViewModel.initializeAuth()
         if(loginViewModel.checkLogged()){
             intent = Intent(this, ProfileUserActivity::class.java)
             startActivity(intent)
