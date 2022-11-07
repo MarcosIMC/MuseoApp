@@ -2,9 +2,24 @@ package com.example.museoapp.ViewModel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.museoapp.MainActivity
+import com.example.museoapp.model.FireBase.GalleryFireBase
 import com.example.museoapp.model.GalleryModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class GalleryViewModel : ViewModel() {
-    val galleryModel = MutableLiveData<GalleryModel>()
+    val galleriesObjects = MutableLiveData<List<GalleryModel>>()
+    val error = MutableLiveData<String?>()
+    val galleryFireBase = GalleryFireBase()
+    val isLoading = MutableLiveData<Boolean>()
 
+    fun getAllElements(){
+        //val activity = MainActivity()
+        viewModelScope.launch(Dispatchers.IO) {
+            isLoading.postValue(true)
+            galleryFireBase.getAll(galleriesObjects, error)
+        }
+    }
 }
