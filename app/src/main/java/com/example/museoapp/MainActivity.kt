@@ -10,6 +10,8 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import com.example.museoapp.ViewModel.GalleryViewModel
 import com.example.museoapp.databinding.ActivityMainBinding
+import com.example.museoapp.ui.home.HomeFragment
+import kotlinx.coroutines.delay
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -27,7 +29,7 @@ class MainActivity : AppCompatActivity() {
             if (listGalleries != null) {
                 binding.progress.isVisible = false
                 val intent = Intent(this, MainViewActivity::class.java)
-                intent.putExtra("ListObjects", listGalleries.toString())
+                //intent.putExtra("ListObjects", listGalleries.toString())
                 startActivity(intent)
             }
         }

@@ -7,10 +7,11 @@ import com.example.museoapp.MainActivity
 import com.example.museoapp.model.FireBase.GalleryFireBase
 import com.example.museoapp.model.GalleryModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class GalleryViewModel : ViewModel() {
-    val galleriesObjects = MutableLiveData<List<GalleryModel>>()
+    val galleriesObjects = MutableLiveData<MutableList<GalleryModel>>()
     val error = MutableLiveData<String?>()
     val galleryFireBase = GalleryFireBase()
     val isLoading = MutableLiveData<Boolean>()
