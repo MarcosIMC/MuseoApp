@@ -1,9 +1,12 @@
 package com.example.museoapp.model
 
 data class GalleryModel(
-    val audio:String,
-    val image:String,
-    val long_description:String,
-    val sort_description:String,
-    val name:String,
-    val qr_code:Long)
+    var key:String? = null,
+    val audio:String? = null,
+    val image:String? = null,
+    val long_description:String? = null,
+    val sort_description:String? = null,
+    val name:String? = null,
+    val qr_code:Long? = 0)
+
+

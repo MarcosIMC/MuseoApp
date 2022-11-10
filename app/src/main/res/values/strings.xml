@@ -11,5 +11,9 @@
     <string name="editTextNameRegister">Nombre...</string>
     <string name="editTextSurnameRegister">Apellidos...</string>
     <string name="editTextTlfRegister">Número de teléfono...</string>
+    <string name="title_activity_main_view">MainViewActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 
 </resources>

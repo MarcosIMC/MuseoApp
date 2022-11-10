@@ -17,7 +17,9 @@ import com.google.firebase.ktx.Firebase
 
 class Auth() {
     private lateinit var auth: FirebaseAuth
-    var myRef: DatabaseReference? = null
+    private var firebaseDB = FireBase()
+    private var myRef = firebaseDB.getRefDB()
+    //var myRef: DatabaseReference? = null
 
     init {
         auth = Firebase.auth
@@ -27,10 +29,9 @@ class Auth() {
         return auth
     }
 
-    fun initializeDatabaseRef() {
+    /*fun initializeDatabaseRef() {
         myRef = FirebaseDatabase.getInstance("https://museo-app-4246f-default-rtdb.europe-west1.firebasedatabase.app/").getReference()
-
-    }
+    }*/
 
     fun checkUserSigned(): Boolean{
         val currentUser = auth.currentUser
@@ -116,7 +117,7 @@ class Auth() {
         error: MutableLiveData<String?>
     ) {
         val newUser = UserModel(name, surname, image, tlf, role)
-        initializeDatabaseRef()
+        //initializeDatabaseRef()
         println("USER UID: "+ userId)
         myRef?.child("users")?.child(userId)?.setValue(newUser)
             ?.addOnCompleteListener {
