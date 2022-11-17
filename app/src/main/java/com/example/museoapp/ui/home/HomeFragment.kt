@@ -1,16 +1,18 @@
 package com.example.museoapp.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import com.example.museoapp.DetailItemActivity
 import com.example.museoapp.ViewModel.GalleryViewModel
 import com.example.museoapp.databinding.FragmentHomeBinding
 import com.example.museoapp.model.GalleryModel
+import com.example.museoapp.model.GalleryModelSerializable
 import com.example.museoapp.model.adapter.ItemAdapter
 
 class HomeFragment : Fragment() {
@@ -40,23 +42,15 @@ class HomeFragment : Fragment() {
                 recyclerView.adapter = adapter
                 adapter.setOnItemClickListener(object : ItemAdapter.onItemClickListener{
                     override fun onItemClick(position: Int) {
-                        var obj : GalleryModel = it[position]
-
-                        Toast.makeText(context, "Seleccionaste el item: " + obj.name,
-                        Toast.LENGTH_SHORT).show()
+                        val item = GalleryModelSerializable(it[position])
+                        val intent = Intent(activity, DetailItemActivity::class.java)
+                        intent.putExtra("id_item", item)
+                        activity!!.startActivity(intent)
                     }
-
                 })
                 recyclerView.setHasFixedSize(true)
             }
         }
-
-
-
-        /*val textView: TextView = binding.textHome
-        homeViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }*/
         return root
     }
 
