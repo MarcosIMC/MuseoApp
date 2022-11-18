@@ -3,8 +3,11 @@ package com.example.museoapp.model.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.museoapp.R
 import com.example.museoapp.model.GalleryModel
 import com.example.museoapp.ui.home.HomeFragment
@@ -31,6 +34,7 @@ class ItemAdapter(
     class ItemViewHolder(private val view: View, listener: onItemClickListener) : RecyclerView.ViewHolder(view) {
         val item_name: TextView = view.findViewById(R.id.item_title)
         val item_sort_description: TextView = view.findViewById(R.id.item_sort_description)
+        val item_image: ImageView = view.findViewById(R.id.item_image)
 
         init {
             view.setOnClickListener {
@@ -57,6 +61,8 @@ class ItemAdapter(
         val item = dataset[position]
         holder.item_name.text = item.name
         holder.item_sort_description.text = item.sort_description
+        Glide.with(context).load(item.image).centerCrop().placeholder(R.drawable.ic_baseline_broken_image_24).error(
+            com.google.android.material.R.drawable.mtrl_ic_error).into(holder.item_image)
     }
 
     /**
