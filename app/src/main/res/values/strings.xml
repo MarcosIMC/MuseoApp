@@ -11,5 +11,11 @@
     <string name="editTextNameRegister">Nombre...</string>
     <string name="editTextSurnameRegister">Apellidos...</string>
     <string name="editTextTlfRegister">Número de teléfono...</string>
-
+    <string name="title_activity_main_view">MainViewActivity</string>
+    <string name="title_home">Museo App</string>
+    <string name="title_dashboard">Usuario</string>
+    <string name="title_notifications">Acerca del Museo</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+    <string name="action_settings">Settings</string>
 </resources>
