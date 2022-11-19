@@ -4,6 +4,10 @@ import android.content.ContentValues.TAG
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI
 import com.bumptech.glide.Glide
 import com.example.museoapp.databinding.ActivityDetailItemBinding
 import com.example.museoapp.model.GalleryModel
@@ -16,6 +20,9 @@ class DetailItemActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_item)
 
+        //Habilitamos la flecha para volver atrás (Parent Activity)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+
         binding = ActivityDetailItemBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val bundle = intent.extras
@@ -26,7 +33,7 @@ class DetailItemActivity : AppCompatActivity() {
             binding.textViewTitle.text = gallery!!.name
             binding.textViewDescription.text = gallery!!.long_description
             Glide.with(this).load(gallery.image).centerCrop().placeholder(R.drawable.ic_baseline_broken_image_24).error(
-                com.google.android.material.R.drawable.mtrl_ic_error).into(binding.imageGallery)
+                com.google.android.material.R.drawable.mtrl_ic_error).timeout(15).into(binding.imageGallery)
         }
     }
 }
