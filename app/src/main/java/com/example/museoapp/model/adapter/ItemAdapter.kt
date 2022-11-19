@@ -62,7 +62,7 @@ class ItemAdapter(
         holder.item_name.text = item.name
         holder.item_sort_description.text = item.sort_description
         Glide.with(context).load(item.image).centerCrop().placeholder(R.drawable.ic_baseline_broken_image_24).error(
-            com.google.android.material.R.drawable.mtrl_ic_error).into(holder.item_image)
+            com.google.android.material.R.drawable.mtrl_ic_error).timeout(15).into(holder.item_image)
     }
 
     /**
