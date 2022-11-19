@@ -22,4 +22,25 @@
         android:name="com.example.museoapp.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
+
+    <fragment
+        android:id="@+id/museumEvent"
+        android:name="com.example.museoapp.MuseumEvent"
+        android:label="fragment_museum_event"
+        tools:layout="@layout/fragment_museum_event" >
+        <action
+            android:id="@+id/action_museumEvent_pop"
+            app:popUpTo="@id/museumEvent"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_museumEvent_to_navigation_home"
+            app:destination="@id/navigation_home" />
+    </fragment>
+    <activity
+        android:id="@+id/museumEventActivity"
+        android:name="com.example.museoapp.MuseumEventActivity"
+        android:label="activity_museum_event"
+        tools:layout="@layout/activity_museum_event" />
+
+
 </navigation>
