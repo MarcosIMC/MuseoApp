@@ -9,12 +9,11 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.example.museoapp.MainViewActivity
-import com.example.museoapp.ProfileUserActivity
-import com.example.museoapp.RegisterUserActivity
+import com.example.museoapp.*
 import com.example.museoapp.ViewModel.LoginViewModel
 import com.example.museoapp.databinding.FragmentUserLoginBinding
 
@@ -65,13 +64,21 @@ class UserFragment : Fragment() {
     public override fun onStart() {
         super.onStart()
         if(loginViewModel.checkLogged()){
-            intent = Intent(activity, ProfileUserActivity::class.java)
-            startActivity(intent)
+            binding.viewLoginContainer.setVisibility(View.GONE)
+            val transaction = activity?.supportFragmentManager?.beginTransaction()
+            transaction?.replace(R.id.nav_host_fragment_activity_main_view, UserProfileFragment.newInstance())
+            transaction?.addToBackStack(null)
+            transaction?.commit()
         }
     }
 
     private fun updateUI(){
-        intent = Intent(activity, ProfileUserActivity::class.java)
-        startActivity(intent)
+        val transaction = activity?.supportFragmentManager?.beginTransaction()
+        transaction?.replace(R.id.nav_host_fragment_activity_main_view, UserProfileFragment.newInstance())
+        transaction?.disallowAddToBackStack()
+        transaction?.commit()
+
+        /*intent = Intent(activity, ProfileUserActivity::class.java)
+        startActivity(intent)*/
     }
 }
