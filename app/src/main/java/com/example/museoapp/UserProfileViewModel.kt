@@ -2,6 +2,6 @@ package com.example.museoapp
 
 import androidx.lifecycle.ViewModel
 
-class MuseumEventViewModel : ViewModel() {
+class UserProfileViewModel : ViewModel() {
     // TODO: Implement the ViewModel
 }

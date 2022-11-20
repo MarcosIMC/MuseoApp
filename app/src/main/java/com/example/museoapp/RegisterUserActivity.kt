@@ -28,6 +28,9 @@ class RegisterUserActivity : AppCompatActivity() {
         binding = ActivityRegisterUserBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        //Habilitamos la flecha para volver atrás (Parent Activity)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+
         signUpViewModel.userFirebase.observe(this, Observer { currentUser ->
             if (currentUser != null){
                 updateUI()

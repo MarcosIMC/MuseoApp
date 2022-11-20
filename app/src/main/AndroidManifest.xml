@@ -39,7 +39,8 @@
         </activity>
         <activity
             android:name=".RegisterUserActivity"
-            android:exported="false">
+            android:exported="false"
+            android:parentActivityName=".LoginActivity">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
