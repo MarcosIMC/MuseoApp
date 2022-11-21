@@ -1,4 +1,4 @@
-package com.example.museoapp
+package com.example.museoapp.ui.user
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -6,8 +6,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import com.example.museoapp.databinding.ActivityDetailItemBinding
 import com.example.museoapp.databinding.FragmentUserProfileBinding
 import com.example.museoapp.model.FireBase.Auth
 

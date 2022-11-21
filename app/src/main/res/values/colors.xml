@@ -12,4 +12,5 @@
     <color name="input_text_color">#b3b3b3</color>
     <color name="signup_button_color">#999999</color>
     <color name="button_login_others">#CCCCCC</color>
+    <color name="primary_app">#9F9F9F</color>
 </resources>

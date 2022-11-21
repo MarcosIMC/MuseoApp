@@ -12,16 +12,16 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
+        android:id="@+id/navigation_user"
         android:name="com.example.museoapp.ui.user.UserFragment"
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_user_login" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.example.museoapp.ui.notifications.NotificationsFragment"
+        android:id="@+id/navigation_information"
+        android:name="com.example.museoapp.ui.information.InformationFragment"
         android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_information" />
 
     <fragment
         android:id="@+id/museumEvent"

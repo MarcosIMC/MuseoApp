@@ -19,4 +19,12 @@
     <string name="close">Close</string>
     <string name="action_settings">Settings</string>
     <string name="burgue_menu_events">Eventos</string>
+    <string name="btn_facebook">Facebook</string>
+    <string name="btn_twitter">Twitter</string>
+    <string name="btn_instagram">Instagram</string>
+    <string name="btn_pinteres">Pinterest</string>
+    <string name="map_view">Ubicación</string>
+    <string name="label_name_museum">Museum App</string>
+    <string name="label_email_museum">Email</string>
+    <string name="label_tlf_museum">Teléfono</string>
 </resources>

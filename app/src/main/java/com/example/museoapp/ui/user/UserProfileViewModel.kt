@@ -1,4 +1,4 @@
-package com.example.museoapp
+package com.example.museoapp.ui.user
 
 import androidx.lifecycle.ViewModel
 
