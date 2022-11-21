@@ -2,15 +2,14 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/a"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
     tools:context=".ui.information.InformationFragment">
 
-
-    <com.google.android.gms.maps.MapView
+    <fragment
         android:id="@+id/mapView"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="342dp"
         android:layout_height="260dp"
         android:layout_marginStart="30dp"
@@ -95,51 +94,55 @@
 
     <ImageButton
         android:id="@+id/imageButtonPinterest"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginStart="30dp"
         android:layout_marginTop="35dp"
         android:layout_marginEnd="60dp"
         android:contentDescription="@string/btn_pinteres"
         android:minHeight="48dp"
-        android:src="@drawable/ic_baseline_broken_image_24"
+        android:background="@null"
+        android:src="@drawable/ic_pinterest"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageButtonInstagram"
         app:layout_constraintTop_toBottomOf="@+id/textViewLabelTlf" />
 
     <ImageButton
         android:id="@+id/imageButtonTwitter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginStart="60dp"
         android:layout_marginTop="35dp"
+        android:background="@null"
         android:contentDescription="@string/btn_twitter"
         android:minHeight="48dp"
-        android:src="@drawable/ic_baseline_person_24"
+        android:src="@drawable/ic_twitter"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewLabelTlf" />
 
     <ImageButton
         android:id="@+id/imageButtonFacebook"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginStart="30dp"
         android:layout_marginTop="35dp"
+        android:background="@null"
         android:contentDescription="@string/btn_facebook"
         android:minHeight="48dp"
-        android:src="@drawable/ic_baseline_qr_code_scanner_24"
+        android:src="@drawable/ic_facebook"
         app:layout_constraintStart_toEndOf="@+id/imageButtonTwitter"
         app:layout_constraintTop_toBottomOf="@+id/textViewLabelTlf" />
 
     <ImageButton
         android:id="@+id/imageButtonInstagram"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginStart="30dp"
         android:layout_marginTop="35dp"
+        android:background="@null"
         android:contentDescription="@string/btn_instagram"
         android:minHeight="48dp"
-        android:src="@drawable/ic_baseline_info_24"
+        android:src="@drawable/ic_instagram"
         app:layout_constraintStart_toEndOf="@+id/imageButtonFacebook"
         app:layout_constraintTop_toBottomOf="@+id/textViewLabelTlf" />
 
