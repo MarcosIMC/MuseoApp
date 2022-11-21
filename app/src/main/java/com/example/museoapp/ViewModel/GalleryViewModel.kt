@@ -19,6 +19,7 @@ class GalleryViewModel : ViewModel() {
     fun getAllElements(){
         //val activity = MainActivity()
         viewModelScope.launch(Dispatchers.IO) {
+            delay(1000)
             isLoading.postValue(true)
             galleryFireBase.getAll(galleriesObjects, error)
         }
