@@ -27,4 +27,5 @@
     <string name="label_name_museum">Museum App</string>
     <string name="label_email_museum">Email</string>
     <string name="label_tlf_museum">Teléfono</string>
+    <string name="logo_description">Logo del Museo</string>
 </resources>
