@@ -11,8 +11,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.museoapp.DetailItemActivity
 import com.example.museoapp.ViewModel.GalleryViewModel
 import com.example.museoapp.databinding.FragmentHomeBinding
-import com.example.museoapp.model.GalleryModel
 import com.example.museoapp.model.GalleryModelSerializable
+import com.example.museoapp.model.adapter.CarouselAdapter
 import com.example.museoapp.model.adapter.ItemAdapter
 
 class HomeFragment : Fragment() {
@@ -51,6 +51,21 @@ class HomeFragment : Fragment() {
                 recyclerView.setHasFixedSize(true)
             }
         }
+
+        //LoadImagesCarousel
+        val list = ArrayList<String>()
+        list.add("https://loremflickr.com/cache/resized/65535_51788078747_3b0972967b_320_240_nofilter.jpg")
+        list.add("https://upload.wikimedia.org/wikipedia/commons/7/73/Leonardo_da_Vinci_-_Mona_Lisa_%28Louvre%2C_Paris%29.jpg")
+        list.add("https://loremflickr.com/cache/resized/65535_52118457722_7d9ee95c45_n_320_240_g.jpg")
+
+        val adapterCarousel = CarouselAdapter(list)
+
+        binding.recycler.apply {
+            this.adapter = adapterCarousel
+            setInfinite(true)
+            setAlpha(true)
+        }
+
         return root
     }
 
