@@ -12,6 +12,7 @@ import kotlinx.coroutines.launch
 
 class GalleryViewModel : ViewModel() {
     val galleriesObjects = MutableLiveData<MutableList<GalleryModel>>()
+    val galleriesImage = MutableLiveData<ArrayList<String>>()
     val error = MutableLiveData<String?>()
     val galleryFireBase = GalleryFireBase()
     val isLoading = MutableLiveData<Boolean>()
@@ -22,6 +23,12 @@ class GalleryViewModel : ViewModel() {
             delay(1000)
             isLoading.postValue(true)
             galleryFireBase.getAll(galleriesObjects, error)
+        }
+    }
+
+    fun getMainImages(){
+        viewModelScope.launch(Dispatchers.IO) {
+            galleryFireBase.getMainImages(galleriesImage, error)
         }
     }
 }

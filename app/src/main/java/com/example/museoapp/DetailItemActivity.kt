@@ -32,8 +32,8 @@ class DetailItemActivity : AppCompatActivity() {
             val gallery : GalleryModelSerializable? = id_item
             binding.textViewTitle.text = gallery!!.name
             binding.textViewDescription.text = gallery!!.long_description
-            Glide.with(this).load(gallery.image).centerCrop().placeholder(R.drawable.ic_baseline_broken_image_24).error(
-                com.google.android.material.R.drawable.mtrl_ic_error).timeout(15).into(binding.imageGallery)
+            Glide.with(this).load(gallery.image).centerCrop().error(
+                R.drawable.ic_baseline_broken_image_24).timeout(600).override(350,290).into(binding.imageGallery)
         }
     }
 }

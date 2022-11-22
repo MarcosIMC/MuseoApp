@@ -41,4 +41,31 @@ class GalleryFireBase {
         }
         myRef?.child("gallery")?.addValueEventListener(galleriesListener)
     }
+
+    suspend fun getMainImages(galleryImageList: MutableLiveData<ArrayList<String>>,
+                              errorGalleryObject: MutableLiveData<String?>) {
+        val galleriesListener = object  : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val list = ArrayList<String>()
+                var imageURL : String
+                for (datasanpshot in snapshot.children){
+                    imageURL = datasanpshot.child("image").value.toString()
+                    list.add(imageURL)
+
+                    if (datasanpshot.key?.equals(5)!!){
+                        break
+                    }
+                }
+                if (list.isNotEmpty()){
+                    galleryImageList.value = list
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {
+                Log.w(TAG,"loadGallery:onCancelled", error.toException())
+                errorGalleryObject.value = "Failed load items. Let´s try later."
+
+            }
+        }
+        myRef?.child("gallery")?.addValueEventListener(galleriesListener)
+    }
 }
