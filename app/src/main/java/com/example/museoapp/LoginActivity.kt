@@ -3,13 +3,12 @@ package com.example.museoapp
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
-import com.example.museoapp.model.FireBase.Auth
 import com.example.museoapp.ViewModel.LoginViewModel
 import com.example.museoapp.databinding.ActivityLoginBinding
+import com.example.museoapp.ui.user.RegisterUserActivity
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding

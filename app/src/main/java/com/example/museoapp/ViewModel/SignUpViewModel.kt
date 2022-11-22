@@ -2,7 +2,7 @@ package com.example.museoapp.ViewModel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.museoapp.RegisterUserActivity
+import com.example.museoapp.ui.user.RegisterUserActivity
 import com.example.museoapp.model.FireBase.Auth
 import com.google.firebase.auth.FirebaseUser
 

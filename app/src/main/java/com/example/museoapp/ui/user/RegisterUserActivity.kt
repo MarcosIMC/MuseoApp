@@ -1,21 +1,15 @@
-package com.example.museoapp
+package com.example.museoapp.ui.user
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
+import com.example.museoapp.ProfileUserActivity
+import com.example.museoapp.R
 import com.example.museoapp.ViewModel.SignUpViewModel
-import com.example.museoapp.databinding.ActivityLoginBinding
 import com.example.museoapp.databinding.ActivityRegisterUserBinding
-import com.example.museoapp.model.FireBase.Auth
-import com.google.android.material.textfield.TextInputLayout
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 
 class RegisterUserActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterUserBinding
@@ -53,7 +47,7 @@ class RegisterUserActivity : AppCompatActivity() {
     }
 
     private fun updateUI() {
-        intent = Intent(this, ProfileUserActivity::class.java)
+        intent = Intent(this, UserProfileFragment::class.java)
         startActivity(intent)
     }
 }

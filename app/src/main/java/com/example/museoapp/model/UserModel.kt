@@ -1,10 +1,10 @@
 package com.example.museoapp.model
 
 data class UserModel(
-    val name:String,
-    val surname:String,
+    val name:String? = null,
+    val surname:String? = null,
     //val email:String,
-    val image:String,
-    val tlf:Long,
+    val image:String? = null,
+    val tlf:Long? = null,
     //val favourites:List<GalleryModel>,
-    val role: Int)
+    val role: Int? = 0)

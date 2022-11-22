@@ -16,7 +16,7 @@ import com.example.museoapp.databinding.FragmentUserLoginBinding
 class UserFragment : Fragment() {
 
     private var _binding: FragmentUserLoginBinding? = null
-    private val loginViewModel: UserViewModel by viewModels()
+    var userViewModel: UserViewModel? = null
     lateinit var intent : Intent
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -27,23 +27,22 @@ class UserFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val userViewModel =
-            ViewModelProvider(this).get(UserViewModel::class.java)
+        userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
 
         _binding = FragmentUserLoginBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        _binding!!.buttonLogin.setOnClickListener { loginViewModel.signInWithEmail(binding.textEmail.text.toString(), binding.textPassword.text.toString()) }
+        _binding!!.buttonLogin.setOnClickListener { userViewModel!!.signInWithEmail(binding.textEmail.text.toString(), binding.textPassword.text.toString()) }
         _binding!!.buttonSignup.setOnClickListener { intent = Intent(activity, RegisterUserActivity::class.java)
             startActivity(intent) }
 
-        loginViewModel.userFirebase.observe(viewLifecycleOwner, Observer { currentUser ->
+        userViewModel!!.userFirebase.observe(viewLifecycleOwner, Observer { currentUser ->
             if (currentUser != null){
                 updateUI()
             }
         })
 
-        loginViewModel.error.observe(viewLifecycleOwner, Observer { errorMessage ->
+        userViewModel!!.error.observe(viewLifecycleOwner, Observer { errorMessage ->
             println("MENSAJE: "+errorMessage)
             Toast.makeText(activity, errorMessage,
                 Toast.LENGTH_SHORT).show()
@@ -59,7 +58,7 @@ class UserFragment : Fragment() {
 
     public override fun onStart() {
         super.onStart()
-        if(loginViewModel.checkLogged()){
+        if(userViewModel!!.checkLogged()){
             binding.viewLoginContainer.setVisibility(View.GONE)
             val transaction = activity?.supportFragmentManager?.beginTransaction()
             transaction?.replace(R.id.nav_host_fragment_activity_main_view, UserProfileFragment.newInstance())
