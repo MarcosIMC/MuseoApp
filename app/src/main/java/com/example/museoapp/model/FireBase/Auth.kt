@@ -7,6 +7,9 @@ import androidx.lifecycle.MutableLiveData
 import com.example.museoapp.LoginActivity
 import com.example.museoapp.ui.user.RegisterUserActivity
 import com.example.museoapp.model.UserModel
+import com.example.museoapp.ui.UpdateForm.UpdateProfileFormActivity
+import com.google.firebase.auth.EmailAuthCredential
+import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
@@ -68,7 +71,7 @@ class Auth() {
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "createUserWithEmail:success")
-                    updateUserData(auth.currentUser, name, surname, tlf, image, activity, userFirebase, error)
+                    updateNewUserData(auth.currentUser, name, surname, tlf, image, activity, userFirebase, error)
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w(TAG, "createUserWithEmail:failure", task.exception)
@@ -78,7 +81,76 @@ class Auth() {
             }
     }
 
+    fun updateUserDataWithPass(
+        email: String,
+        password: String,
+        name: String,
+        surname: String,
+        tlf: Long,
+        image: String,
+        activity: UpdateProfileFormActivity,
+        userFirebase: MutableLiveData<FirebaseUser?>,
+        error: MutableLiveData<String?>
+    ) {
+        val profileUserUpdates = userProfileChangeRequest {
+            displayName = name
+            photoUri = Uri.parse(image)
+        }
+
+        auth.currentUser!!.updateProfile(profileUserUpdates).addOnCompleteListener(activity) { task ->
+            if (task.isSuccessful){
+                updateUserData(auth.currentUser!!.uid, name, surname, tlf, image, 0, userFirebase, error)
+                if (userFirebase.value != null) {
+                    if (!auth.currentUser!!.email.equals(email)){
+                        updateEmail(email, error)
+                    }
+                    updatePassword(password, error)
+
+                    val credential = EmailAuthProvider.getCredential(email, password)
+                    auth.currentUser!!.reauthenticate(credential)
+                }else {
+                    error.value = "An error ocurred when try update user."
+                }
+
+            }else{
+                error.value = "Update failed."
+                userFirebase.value = null
+            }
+        }
+    }
+
+    fun updatePassword(password: String, error: MutableLiveData<String?>) {
+        auth.currentUser!!.updatePassword(password).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Log.d(TAG, "Password changed")
+            }else {
+                error.value = "Falied to update the password"
+            }
+        }
+    }
+
+    private fun updateEmail(email: String, error: MutableLiveData<String?>) {
+        auth.currentUser!!.updateEmail(email).addOnCompleteListener { task ->
+            if (task.isSuccessful){
+                Log.i(TAG, "User mail address updated.")
+            }
+        }
+    }
+
     private fun updateUserData(
+        uid: String,
+        name: String,
+        surname: String,
+        tlf: Long,
+        image: String,
+        role: Int,
+        userFirebase: MutableLiveData<FirebaseUser?>,
+        error: MutableLiveData<String?>
+    ) {
+        writeNewUser(uid, name, surname, tlf, image, role, userFirebase, error)
+    }
+
+    private fun updateNewUserData(
         currentUser: FirebaseUser?,
         name: String,
         surname: String,

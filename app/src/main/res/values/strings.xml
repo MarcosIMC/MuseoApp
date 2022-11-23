@@ -1,16 +1,16 @@
 <resources>
     <string name="app_name">MuseoApp</string>
-    <string name="login_mail">Correo electrónico...</string>
-    <string name="login_password">Contraseña...</string>
+    <string name="login_mail">Correo electrónico…</string>
+    <string name="login_password">Contraseña…</string>
     <string name="button_login">Iniciar sesión</string>
     <string name="button_signup">Registrarse</string>
     <string name="button_login_google">Google</string>
     <string name="button_login_apple">Apple</string>
     <string name="button_forgot_password">¿Has olvidado la contraseña?</string>
-    <string name="others_login">Inicia sesión con...</string>
-    <string name="editTextNameRegister">Nombre...</string>
-    <string name="editTextSurnameRegister">Apellidos...</string>
-    <string name="editTextTlfRegister">Número de teléfono...</string>
+    <string name="others_login">Inicia sesión con…</string>
+    <string name="editTextNameRegister">Nombre…</string>
+    <string name="editTextSurnameRegister">Apellidos…</string>
+    <string name="editTextTlfRegister">Número de teléfono…</string>
     <string name="title_activity_main_view">MainViewActivity</string>
     <string name="title_home">Museo App</string>
     <string name="title_dashboard">Usuario</string>
@@ -30,4 +30,16 @@
     <string name="logo_description">Logo del Museo</string>
     <string name="log_out">Cerrar Sesión</string>
     <string name="update_profile">Actualizar Perfil</string>
+    <string name="repeat_password">Repite la contraseña…</string>
+    <string name="load_image_user">Cargar imagen</string>
+    <string name="label_image_user">Imagen de perfil</string>
+
+    <!-- Mensajes de Error -->
+    <string name="error_email_user">El campo email es obligatorio.</string>
+    <string name="error_password_user">El campo de password es obligatorio.</string>
+    <string name="error_name_user">El campo nombre es obligatorio.</string>
+    <string name="error_tlf_user">El campo Telefono es obligatorio.</string>
+    <string name="error_surname_user">El campo Apellido es obligatorio.</string>
+    <string name="error_password_different">Las passwords no coinciden.</string>
+    <string name="error_permission_gallery">Debes aceptar los permisos de acceso al almacenamiento.</string>
 </resources>
