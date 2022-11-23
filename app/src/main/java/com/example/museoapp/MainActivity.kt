@@ -3,15 +3,12 @@ package com.example.museoapp
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import com.example.museoapp.ViewModel.GalleryViewModel
 import com.example.museoapp.databinding.ActivityMainBinding
-import com.example.museoapp.ui.home.HomeFragment
-import kotlinx.coroutines.delay
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding

@@ -28,4 +28,6 @@
     <string name="label_email_museum">Email</string>
     <string name="label_tlf_museum">Teléfono</string>
     <string name="logo_description">Logo del Museo</string>
+    <string name="log_out">Cerrar Sesión</string>
+    <string name="update_profile">Actualizar Perfil</string>
 </resources>

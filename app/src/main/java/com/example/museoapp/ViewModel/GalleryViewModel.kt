@@ -3,7 +3,6 @@ package com.example.museoapp.ViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.museoapp.MainActivity
 import com.example.museoapp.model.FireBase.GalleryFireBase
 import com.example.museoapp.model.GalleryModel
 import kotlinx.coroutines.Dispatchers

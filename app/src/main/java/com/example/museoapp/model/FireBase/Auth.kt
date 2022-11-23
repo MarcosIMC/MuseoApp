@@ -126,4 +126,8 @@ class Auth() {
                 userFirebase.value = null
             }
     }
+
+    fun logOut(){
+        Firebase.auth.signOut()
+    }
 }

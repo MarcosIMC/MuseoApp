@@ -1,4 +1,4 @@
-package com.example.museoapp
+package com.example.museoapp.ui.Events
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.museoapp.R
 import com.example.museoapp.ViewModel.MuseumEventViewModel
 
 class MuseumEvent : Fragment() {
