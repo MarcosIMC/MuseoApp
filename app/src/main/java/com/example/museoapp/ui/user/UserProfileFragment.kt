@@ -37,6 +37,7 @@ class UserProfileFragment : Fragment() {
         _binding = FragmentUserProfileBinding.inflate(layoutInflater)
         val root: View = binding.root
         userProfileViewModel = ViewModelProvider(this).get(UserProfileViewModel::class.java)
+
         userViewModel.userDatas.observe(viewLifecycleOwner) {
             if (it != null && currentUser != null){
                 binding.textViewName.text = currentUser.displayName
