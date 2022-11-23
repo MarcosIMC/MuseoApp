@@ -14,7 +14,9 @@ import com.example.museoapp.*
 import com.example.museoapp.databinding.FragmentUserLoginBinding
 
 class UserFragment : Fragment() {
-
+    companion object {
+        fun newInstance() = UserFragment()
+    }
     private var _binding: FragmentUserLoginBinding? = null
     var userViewModel: UserViewModel? = null
     lateinit var intent : Intent

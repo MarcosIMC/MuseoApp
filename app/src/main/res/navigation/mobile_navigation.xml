@@ -25,7 +25,7 @@
 
     <fragment
         android:id="@+id/museumEvent"
-        android:name="com.example.museoapp.MuseumEvent"
+        android:name="com.example.museoapp.ui.Events.MuseumEvent"
         android:label="fragment_museum_event"
         tools:layout="@layout/fragment_museum_event" >
         <action
@@ -38,7 +38,7 @@
     </fragment>
     <activity
         android:id="@+id/museumEventActivity"
-        android:name="com.example.museoapp.MuseumEventActivity"
+        android:name="com.example.museoapp.ui.Events.MuseumEventActivity"
         android:label="activity_museum_event"
         tools:layout="@layout/activity_museum_event" />
 

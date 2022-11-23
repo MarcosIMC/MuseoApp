@@ -3,7 +3,7 @@ package com.example.museoapp.ui.home
 import android.content.Intent
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
-import com.example.museoapp.DetailItemActivity
+import com.example.museoapp.ui.DetailItem.DetailItemActivity
 import com.example.museoapp.model.GalleryModel
 import com.example.museoapp.model.GalleryModelSerializable
 

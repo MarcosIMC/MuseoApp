@@ -1,7 +1,8 @@
-package com.example.museoapp
+package com.example.museoapp.ui.Events
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.museoapp.R
 
 class MuseumEventActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

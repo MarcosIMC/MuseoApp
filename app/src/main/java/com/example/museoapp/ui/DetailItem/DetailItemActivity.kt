@@ -1,16 +1,10 @@
-package com.example.museoapp
+package com.example.museoapp.ui.DetailItem
 
-import android.content.ContentValues.TAG
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import androidx.navigation.NavController
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.NavigationUI
 import com.bumptech.glide.Glide
+import com.example.museoapp.R
 import com.example.museoapp.databinding.ActivityDetailItemBinding
-import com.example.museoapp.model.GalleryModel
 import com.example.museoapp.model.GalleryModelSerializable
 
 class DetailItemActivity : AppCompatActivity() {
@@ -33,7 +27,8 @@ class DetailItemActivity : AppCompatActivity() {
             binding.textViewTitle.text = gallery!!.name
             binding.textViewDescription.text = gallery!!.long_description
             Glide.with(this).load(gallery.image).centerCrop().error(
-                R.drawable.ic_baseline_broken_image_24).timeout(600).override(350,290).into(binding.imageGallery)
+                R.drawable.ic_baseline_broken_image_24
+            ).timeout(600).override(350,290).into(binding.imageGallery)
         }
     }
 }
