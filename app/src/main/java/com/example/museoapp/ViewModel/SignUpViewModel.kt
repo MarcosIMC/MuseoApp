@@ -14,6 +14,6 @@ class SignUpViewModel : ViewModel() {
 
     fun createUser(email : String, password : String, name : String, surname : String, tlf : Long)  {
         val activity = RegisterUserActivity()
-        authObj.createUserWithEmailAndPassword(email, password, name, surname, tlf, "", activity, userFirebase, error)
+        authObj.createUserWithEmailAndPassword(email, password, name, surname, tlf, null, activity, userFirebase, error)
     }
 }

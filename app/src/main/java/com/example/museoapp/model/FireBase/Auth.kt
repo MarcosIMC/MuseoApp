@@ -1,6 +1,7 @@
 package com.example.museoapp.model.FireBase
 
 import android.content.ContentValues.TAG
+import android.graphics.Bitmap
 import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
@@ -8,18 +9,19 @@ import com.example.museoapp.LoginActivity
 import com.example.museoapp.ui.user.RegisterUserActivity
 import com.example.museoapp.model.UserModel
 import com.example.museoapp.ui.UpdateForm.UpdateProfileFormActivity
-import com.google.firebase.auth.EmailAuthCredential
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.*
 
 class Auth() {
     private lateinit var auth: FirebaseAuth
     private var firebaseDB = FireBase()
     private var myRef = firebaseDB.getRefDB()
+    private var storage = Storage()
     //var myRef: DatabaseReference? = null
 
     init {
@@ -62,7 +64,7 @@ class Auth() {
         name: String,
         surname: String,
         tlf: Long,
-        image: String,
+        image: Uri?,
         activity: RegisterUserActivity,
         userFirebase: MutableLiveData<FirebaseUser?>,
         error: MutableLiveData<String?>
@@ -87,19 +89,20 @@ class Auth() {
         name: String,
         surname: String,
         tlf: Long,
-        image: String,
+        image: Bitmap?,
         activity: UpdateProfileFormActivity,
         userFirebase: MutableLiveData<FirebaseUser?>,
         error: MutableLiveData<String?>
     ) {
         val profileUserUpdates = userProfileChangeRequest {
             displayName = name
-            photoUri = Uri.parse(image)
+            //photoUri = Uri.parse(image)
         }
 
         auth.currentUser!!.updateProfile(profileUserUpdates).addOnCompleteListener(activity) { task ->
             if (task.isSuccessful){
                 updateUserData(auth.currentUser!!.uid, name, surname, tlf, image, 0, userFirebase, error)
+
                 if (userFirebase.value != null) {
                     if (!auth.currentUser!!.email.equals(email)){
                         updateEmail(email, error)
@@ -111,7 +114,6 @@ class Auth() {
                 }else {
                     error.value = "An error ocurred when try update user."
                 }
-
             }else{
                 error.value = "Update failed."
                 userFirebase.value = null
@@ -142,12 +144,15 @@ class Auth() {
         name: String,
         surname: String,
         tlf: Long,
-        image: String,
+        image: Bitmap?,
         role: Int,
         userFirebase: MutableLiveData<FirebaseUser?>,
         error: MutableLiveData<String?>
     ) {
-        writeNewUser(uid, name, surname, tlf, image, role, userFirebase, error)
+        if (image != null){
+            storage.uploadFile(Auth(), uid, name, surname, tlf, image, role, userFirebase, error)
+        }
+        writeNewUser(uid, name, surname, tlf, null, role, userFirebase, error)
     }
 
     private fun updateNewUserData(
@@ -155,20 +160,20 @@ class Auth() {
         name: String,
         surname: String,
         tlf: Long,
-        image: String,
+        image: Uri?,
         activity: RegisterUserActivity,
         userFirebase: MutableLiveData<FirebaseUser?>,
         error: MutableLiveData<String?>
     ) {
         val profileUserUpdates = userProfileChangeRequest {
             displayName = name
-            photoUri = Uri.parse(image)
+            //photoUri = Uri.parse(image)
         }
 
         currentUser!!.updateProfile(profileUserUpdates).addOnCompleteListener(activity){ task ->
             if (task.isSuccessful){
                 Log.d(TAG, "User profile updated")
-                writeNewUser(currentUser.uid, name, surname, tlf, image, 0, userFirebase, error)
+                writeNewUser(currentUser.uid, name, surname, tlf, null, 0, userFirebase, error)
             }else{
                 error.value = "Register failed."
                 userFirebase.value = null
@@ -176,16 +181,17 @@ class Auth() {
         }
     }
 
-    private fun writeNewUser(
+    fun writeNewUser(
         userId: String,
         name: String,
         surname: String,
         tlf: Long,
-        image: String,
+        image: String?,
         role: Int,
         userFirebase: MutableLiveData<FirebaseUser?>,
         error: MutableLiveData<String?>
     ) {
+        Log.i(TAG, "Valor de image: " + image)
         val newUser = UserModel(name, surname, image, tlf, role)
         //initializeDatabaseRef()
         println("USER UID: "+ userId)
