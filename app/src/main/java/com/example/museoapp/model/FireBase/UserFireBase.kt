@@ -1,9 +1,11 @@
 package com.example.museoapp.model.FireBase
 
 import android.content.ContentValues.TAG
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.museoapp.model.UserModel
+import com.google.android.gms.tasks.Task
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -20,5 +22,9 @@ class UserFireBase {
         }?.addOnFailureListener {
             errorUSerObject.value = it.toString()
         }
+    }
+
+    fun updateImageUser(downloadUrl: Uri) {
+
     }
 }

@@ -74,7 +74,7 @@ class UpdateProfileFormActivity : AppCompatActivity() {
             R.id.check_update_button -> {
                 if (checkLabels() && checkPassword()) {
                     updateProfileViewModel.updateUser(
-                        //drawable?.bitmap,
+                        drawable?.bitmap,
                         binding.editTextEmailAddressUpdate,
                         binding.editTextUserNameUpdate,
                         binding.editTextUserSurnameUpdate,
