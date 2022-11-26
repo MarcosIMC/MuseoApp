@@ -29,7 +29,6 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="30dp"
-        android:background="@color/input_text_color"
         android:ems="10"
         android:hint="@string/login_mail"
         android:inputType="textEmailAddress"
@@ -44,7 +43,6 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="30dp"
-        android:background="@color/input_text_color"
         android:ems="10"
         android:hint="@string/login_password"
         android:inputType="textPassword"
@@ -60,7 +58,6 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="48dp"
-        android:background="@color/background"
         android:text="@string/button_login"
         app:layout_constraintEnd_toStartOf="@+id/button_signup"
         app:layout_constraintStart_toStartOf="parent"
@@ -68,13 +65,13 @@
 
     <Button
         android:id="@+id/button_signup"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:outlineSpotShadowColor="@color/primary_app"
         android:layout_width="151dp"
         android:layout_height="50dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="32dp"
-        android:background="@color/signup_button_color"
         android:text="@string/button_signup"
-        android:textColor="#263238"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/button_login"
         app:layout_constraintTop_toBottomOf="@+id/textPassword" />
@@ -86,36 +83,20 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="30dp"
-        android:background="@color/button_login_others"
         android:text="@string/button_login_google"
-        android:textColor="#455A64"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_login" />
-
-    <Button
-        android:id="@+id/button_login_apple"
-        android:layout_width="350dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="30dp"
-        android:background="@color/button_login_others"
-        android:text="@string/button_login_apple"
-        android:textColor="#455A64"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_login_google" />
 
     <TextView
         android:id="@+id/button_forgot_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="35dp"
         android:text="@string/button_forgot_password"
-        android:textColor="#90CAF9"
+        android:textColor="@color/primary_app"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_login_apple" />
+        app:layout_constraintTop_toBottomOf="@+id/button_login_google" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
