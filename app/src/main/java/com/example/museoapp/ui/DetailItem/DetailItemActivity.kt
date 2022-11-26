@@ -28,7 +28,7 @@ class DetailItemActivity : AppCompatActivity() {
             binding.textViewDescription.text = gallery!!.long_description
             Glide.with(this).load(gallery.image).centerCrop().error(
                 R.drawable.ic_baseline_broken_image_24
-            ).timeout(600).override(350,290).into(binding.imageGallery)
+            ).timeout(600).into(binding.imageGallery)
         }
     }
 }

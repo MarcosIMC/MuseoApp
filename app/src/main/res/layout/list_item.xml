@@ -2,6 +2,9 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    app:strokeColor="@color/primary_app"
+    app:strokeWidth="2dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="8dp">
     <LinearLayout
         android:layout_width="match_parent"
@@ -11,9 +14,9 @@
 
         <ImageView
             android:id="@+id/item_image"
+            android:scaleType="centerCrop"
             android:layout_width="350dp"
             android:layout_height="150dp"
-            android:layout_marginTop="15dp"
             android:layout_marginEnd="20dp" />
 
         <TextView
@@ -30,7 +33,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="25dp"
-            android:layout_marginEnd="20dp" />
+            android:layout_marginEnd="20dp"
+            android:textAppearance="?attr/textAppearanceBody2"
+            android:textColor="?android:attr/textColorSecondary"/>
 
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

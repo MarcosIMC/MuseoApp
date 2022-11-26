@@ -42,4 +42,5 @@
     <string name="error_surname_user">El campo Apellido es obligatorio.</string>
     <string name="error_password_different">Las passwords no coinciden.</string>
     <string name="error_permission_gallery">Debes aceptar los permisos de acceso al almacenamiento.</string>
+    <string name="floating_button">QR Scanner</string>
 </resources>

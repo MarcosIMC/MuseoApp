@@ -38,9 +38,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginTop="25dp"
+        android:textSize="@dimen/main_text"
         android:text="@string/label_name_museum"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider" />
+        app:layout_constraintTop_toBottomOf="@+id/divider"
+        tools:ignore="SpUsage" />
 
     <TextView
         android:id="@+id/textViewNameMuseum"
@@ -48,6 +50,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="35dp"
         android:layout_marginTop="25dp"
+        android:textSize="@dimen/main_text"
         android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/textLabelNameMuseum"
         app:layout_constraintTop_toBottomOf="@+id/divider" />
@@ -58,6 +61,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginTop="25dp"
+        android:textSize="@dimen/main_text"
         android:text="@string/label_email_museum"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textLabelNameMuseum" />
@@ -68,6 +72,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="35dp"
         android:layout_marginTop="25dp"
+        android:textSize="@dimen/main_text"
         android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/textLabelNameMuseum"
         app:layout_constraintTop_toBottomOf="@+id/textViewNameMuseum" />
@@ -78,6 +83,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
         android:layout_marginTop="25dp"
+        android:textSize="@dimen/main_text"
         android:text="@string/label_tlf_museum"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewLabelEmail" />
@@ -88,6 +94,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="35dp"
         android:layout_marginTop="25dp"
+        android:textSize="@dimen/main_text"
         android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/textLabelNameMuseum"
         app:layout_constraintTop_toBottomOf="@+id/textViewEmailMuseum" />

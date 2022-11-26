@@ -7,10 +7,13 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="background">#515151</color>
-    <color name="bottom_menu">#808080</color>
-    <color name="input_text_color">#b3b3b3</color>
-    <color name="signup_button_color">#999999</color>
-    <color name="button_login_others">#CCCCCC</color>
-    <color name="primary_app">#9F9F9F</color>
+    <color name="background">#CCD1FF</color>
+    <color name="bottom_menu">#ABB3F5</color>
+    <color name="input_text_color">#A89960</color>
+    <color name="input_border_color">#F5D45D</color>
+    <color name="signup_button_color">#ABB3F5</color>
+    <color name="button_login_others">#656CA8</color>
+    <color name="primary_app">#656CA8</color>
+
+
 </resources>
