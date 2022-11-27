@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.Navigation
 import com.bumptech.glide.Glide
 import com.example.museoapp.R
 import com.example.museoapp.ViewModel.UserDataViewModel
@@ -50,7 +51,7 @@ class UserProfileFragment : Fragment() {
             }
         }
 
-        //return inflater.inflate(R.layout.fragment_user_profile, container, false)
+        //return inflater.inflate(R.layout.fragment_user_profile, container, true)
         return root
     }
 
@@ -69,8 +70,7 @@ class UserProfileFragment : Fragment() {
             }
 
             R.id.update_button -> {
-                val intent = Intent(activity, UpdateProfileFormActivity::class.java)
-                activity!!.startActivity(intent)
+                Navigation.findNavController(view!!).navigate(R.id.updateProfileFormActivity)
                 true
             }
             else -> {
@@ -92,16 +92,13 @@ class UserProfileFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        Log.i(TAG, "Dentro del destroy")
         _binding = null
     }
 
     private fun updateLogout(){
         if (auth?.currentUser == null){
-            binding.userProfileFragment.setVisibility(View.GONE)
-            val transaction = activity?.supportFragmentManager?.beginTransaction()
-            transaction?.replace(R.id.nav_host_fragment_activity_main_view, UserFragment.newInstance())
-            transaction?.addToBackStack(null)
-            transaction?.commit()
+            Navigation.findNavController(view!!).navigate(R.id.navigation_user)
         }
     }
 }

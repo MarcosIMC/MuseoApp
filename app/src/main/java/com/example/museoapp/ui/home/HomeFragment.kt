@@ -3,12 +3,11 @@ package com.example.museoapp.ui.home
 import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import com.example.museoapp.R
 import com.example.museoapp.ViewModel.GalleryViewModel
 import com.example.museoapp.databinding.FragmentHomeBinding
 import com.example.museoapp.model.GalleryModel
@@ -31,6 +30,9 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        setHasOptionsMenu(false)
+        super.onCreate(savedInstanceState)
+
         val homeViewModel =
         ViewModelProvider(this).get(HomeViewModel::class.java)
 

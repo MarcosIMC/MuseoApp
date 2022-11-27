@@ -15,6 +15,8 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
+import androidx.navigation.findNavController
+import androidx.navigation.ui.NavigationUI
 import com.example.museoapp.R
 import com.example.museoapp.ViewModel.UpdateProfileViewModel
 import com.example.museoapp.ViewModel.UserDataViewModel
@@ -81,6 +83,11 @@ class UpdateProfileFormActivity : AppCompatActivity() {
                         binding.editTextPasswordUserUpdate.editText?.text.toString()
                     )
                 }
+                true
+            }
+
+            android.R.id.home -> {
+                finish()
                 true
             }else -> {
                 super.onOptionsItemSelected(item)

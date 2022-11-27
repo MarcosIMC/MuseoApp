@@ -11,6 +11,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.NavigationUI
 import com.example.museoapp.*
 import com.example.museoapp.databinding.FragmentUserLoginBinding
 
@@ -31,7 +35,6 @@ class UserFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
-
         _binding = FragmentUserLoginBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
@@ -84,21 +87,11 @@ class UserFragment : Fragment() {
     public override fun onStart() {
         super.onStart()
         if(userViewModel!!.checkLogged()){
-            binding.viewLoginContainer.setVisibility(View.GONE)
-            val transaction = activity?.supportFragmentManager?.beginTransaction()
-            transaction?.replace(R.id.nav_host_fragment_activity_main_view, UserProfileFragment.newInstance())
-            transaction?.addToBackStack(null)
-            transaction?.commit()
+            Navigation.findNavController(view!!).navigate(R.id.userProfileFragment)
         }
     }
 
     private fun updateUI(){
-        val transaction = activity?.supportFragmentManager?.beginTransaction()
-        transaction?.replace(R.id.nav_host_fragment_activity_main_view, UserProfileFragment.newInstance())
-        transaction?.disallowAddToBackStack()
-        transaction?.commit()
-
-        /*intent = Intent(activity, ProfileUserActivity::class.java)
-        startActivity(intent)*/
+        Navigation.findNavController(view!!).navigate(R.id.userProfileFragment)
     }
 }
