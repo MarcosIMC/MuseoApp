@@ -27,7 +27,7 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="40dp"
         android:layout_marginEnd="30dp"
-        android:background="?android:attr/listDivider"
+        android:background="@color/bottom_menu"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/mapView" />
@@ -39,7 +39,7 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="25dp"
         android:textSize="@dimen/main_text"
-        android:text="@string/label_name_museum"
+        android:text="@string/name"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/divider"
         tools:ignore="SpUsage" />
@@ -51,7 +51,7 @@
         android:layout_marginStart="35dp"
         android:layout_marginTop="25dp"
         android:textSize="@dimen/main_text"
-        android:text="TextView"
+        android:text="@string/label_name_museum"
         app:layout_constraintStart_toEndOf="@+id/textLabelNameMuseum"
         app:layout_constraintTop_toBottomOf="@+id/divider" />
 
@@ -73,7 +73,7 @@
         android:layout_marginStart="35dp"
         android:layout_marginTop="25dp"
         android:textSize="@dimen/main_text"
-        android:text="TextView"
+        android:text="@string/email_museum"
         app:layout_constraintStart_toEndOf="@+id/textLabelNameMuseum"
         app:layout_constraintTop_toBottomOf="@+id/textViewNameMuseum" />
 
@@ -95,7 +95,7 @@
         android:layout_marginStart="35dp"
         android:layout_marginTop="25dp"
         android:textSize="@dimen/main_text"
-        android:text="TextView"
+        android:text="@string/tlf_museum"
         app:layout_constraintStart_toEndOf="@+id/textLabelNameMuseum"
         app:layout_constraintTop_toBottomOf="@+id/textViewEmailMuseum" />
 
@@ -152,6 +152,5 @@
         android:src="@drawable/ic_instagram"
         app:layout_constraintStart_toEndOf="@+id/imageButtonFacebook"
         app:layout_constraintTop_toBottomOf="@+id/textViewLabelTlf" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

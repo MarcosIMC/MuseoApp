@@ -1,7 +1,10 @@
 package com.example.museoapp.ui.information
 
 import android.Manifest
+import android.app.Activity
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -22,8 +25,10 @@ import com.google.android.gms.maps.model.MarkerOptions
 
 class InformationFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener {
 
+    private lateinit var mActivity: Activity
     private var _binding: FragmentInformationBinding? = null
     lateinit var map: GoogleMap
+
     companion object {
         const val REQUEST_CODE_LOCATION = 0
     }
@@ -54,6 +59,37 @@ class InformationFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMyLocati
         binding.imageButtonPinterest.setOnClickListener { informationViewModel.openRRSS(RRSS.PINTEREST) }
         binding.imageButtonTwitter.setOnClickListener { informationViewModel.openRRSS(RRSS.TWITTER) }
 
+        informationViewModel.action.observe(activity!!) {
+            if (it == 0){
+                val uri = Uri.parse(mActivity.resources.getString(R.string.url_twitter))
+                val intent = Intent(Intent.ACTION_VIEW)
+                intent.setData(uri)
+                mActivity.startActivity(intent)
+                informationViewModel.action.value = -1
+            }
+
+            if (it == 1) {
+                val uri = Uri.parse(mActivity.resources.getString(R.string.url_facebook))
+                val intent = Intent(Intent.ACTION_VIEW, uri)
+                mActivity.startActivity(intent)
+                informationViewModel.action.value = -1
+            }
+
+            if (it == 2) {
+                val uri = Uri.parse(mActivity.resources.getString(R.string.url_instagram))
+                val intent = Intent(Intent.ACTION_VIEW, uri)
+                mActivity.startActivity(intent)
+                informationViewModel.action.value = -1
+            }
+
+            if (it == 3) {
+                val uri = Uri.parse(mActivity.resources.getString(R.string.url_pinterest))
+                val intent = Intent(Intent.ACTION_VIEW, uri)
+                mActivity.startActivity(intent)
+                informationViewModel.action.value = -1
+            }
+        }
+
         //Solicitamos los permisos de la ubicación
         isPermissionsGranted()
 
@@ -61,6 +97,16 @@ class InformationFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMyLocati
         createMapFragment()
 
         return root
+    }
+
+    //Mantenemos la referencia a la activity pese a que luego cambiemos de pestaña
+    override fun onAttach(activity: Activity) {
+        super.onAttach(activity)
+        mActivity = activity
+    }
+
+    override fun onStart() {
+        super.onStart()
     }
 
     private fun isPermissionsGranted() = ContextCompat.checkSelfPermission(

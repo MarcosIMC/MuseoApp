@@ -15,7 +15,6 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
-import androidx.core.text.set
 import com.example.museoapp.R
 import com.example.museoapp.ViewModel.UpdateProfileViewModel
 import com.example.museoapp.ViewModel.UserDataViewModel
@@ -56,10 +55,10 @@ class UpdateProfileFormActivity : AppCompatActivity() {
 
 
     private fun loadLabels(currentUser: FirebaseUser, userModel: UserModel) {
-        binding.editTextEmailAddressUpdate.setText(currentUser.email)
-        binding.editTextUserNameUpdate.setText(userModel.name)
-        binding.editTextUserSurnameUpdate.setText(userModel.surname)
-        binding.editTextPhoneUserUpdate.setText(userModel.tlf.toString())
+        binding.editTextEmailAddressUpdate.editText?.setText(currentUser.email)
+        binding.editTextUserNameUpdate.editText?.setText(userModel.name)
+        binding.editTextUserSurnameUpdate.editText?.setText(userModel.surname)
+        binding.editTextPhoneUserUpdate.editText?.setText(userModel.tlf.toString())
     }
 
     //Agregamos las opciones del menu
@@ -75,11 +74,11 @@ class UpdateProfileFormActivity : AppCompatActivity() {
                 if (checkLabels() && checkPassword()) {
                     updateProfileViewModel.updateUser(
                         drawable?.bitmap,
-                        binding.editTextEmailAddressUpdate,
-                        binding.editTextUserNameUpdate,
-                        binding.editTextUserSurnameUpdate,
-                        binding.editTextPhoneUserUpdate,
-                        binding.editTextPasswordUserUpdate
+                        binding.editTextEmailAddressUpdate.editText?.text.toString(),
+                        binding.editTextUserNameUpdate.editText?.text.toString(),
+                        binding.editTextUserSurnameUpdate.editText?.text.toString(),
+                        binding.editTextPhoneUserUpdate.editText?.text.toString(),
+                        binding.editTextPasswordUserUpdate.editText?.text.toString()
                     )
                 }
                 true
@@ -137,7 +136,7 @@ class UpdateProfileFormActivity : AppCompatActivity() {
 
     //Comprobamos si las pass son diferentes
     private fun checkPassword(): Boolean {
-        if (binding.editTextPasswordUserUpdate.text.toString().equals(binding.editTextPasswordRepeatUserUpdate.text.toString())) {
+        if (binding.editTextPasswordUserUpdate.editText?.text.toString().equals(binding.editTextPasswordRepeatUserUpdate.editText?.text.toString())) {
             return true
         }
         binding.editTextPasswordUserUpdate.error = getString(R.string.error_password_different)
@@ -148,7 +147,7 @@ class UpdateProfileFormActivity : AppCompatActivity() {
     //Comprobamos todos los campos
     private fun checkLabels() : Boolean {
         var isValid = true
-        if (TextUtils.isEmpty(binding.editTextEmailAddressUpdate.text.toString())){
+        if (TextUtils.isEmpty(binding.editTextEmailAddressUpdate.editText?.text.toString())){
             binding.editTextEmailAddressUpdate.error = getString(R.string.error_email_user)
             isValid = false
         }else{
@@ -156,35 +155,35 @@ class UpdateProfileFormActivity : AppCompatActivity() {
         }
 
 
-        if (TextUtils.isEmpty(binding.editTextUserNameUpdate.text.toString())){
+        if (TextUtils.isEmpty(binding.editTextUserNameUpdate.editText?.text.toString())){
             binding.editTextUserNameUpdate.error = getString(R.string.error_name_user)
             isValid = false
         }else{
             binding.editTextUserNameUpdate.error = null
         }
 
-        if (TextUtils.isEmpty(binding.editTextUserSurnameUpdate.text.toString())){
+        if (TextUtils.isEmpty(binding.editTextUserSurnameUpdate.editText?.text.toString())){
             binding.editTextUserSurnameUpdate.error = getString(R.string.error_surname_user)
             isValid = false
         }else{
             binding.editTextUserSurnameUpdate.error = null
         }
 
-        if (TextUtils.isEmpty(binding.editTextPhoneUserUpdate.text.toString())){
+        if (TextUtils.isEmpty(binding.editTextPhoneUserUpdate.editText?.text.toString())){
             binding.editTextPhoneUserUpdate.error = getString(R.string.error_tlf_user)
             isValid = false
         }else{
             binding.editTextPhoneUserUpdate.error = null
         }
 
-        if (TextUtils.isEmpty(binding.editTextPasswordUserUpdate.text.toString())){
+        if (TextUtils.isEmpty(binding.editTextPasswordUserUpdate.editText?.text.toString())){
             binding.editTextPasswordUserUpdate.error = getString(R.string.error_password_user)
             isValid = false
         }else{
             binding.editTextPasswordUserUpdate.error = null
         }
 
-        if (TextUtils.isEmpty(binding.editTextPasswordRepeatUserUpdate.text.toString())){
+        if (TextUtils.isEmpty(binding.editTextPasswordRepeatUserUpdate.editText?.text.toString())){
             binding.editTextPasswordRepeatUserUpdate.error = getString(R.string.error_password_user)
             isValid = false
         }else{

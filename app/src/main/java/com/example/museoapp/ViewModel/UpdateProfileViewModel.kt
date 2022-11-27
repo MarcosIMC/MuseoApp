@@ -1,7 +1,6 @@
 package com.example.museoapp.ViewModel
 
 import android.graphics.Bitmap
-import android.widget.EditText
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.museoapp.model.FireBase.Auth
@@ -15,13 +14,13 @@ class UpdateProfileViewModel : ViewModel(){
 
     fun updateUser(
         image: Bitmap?,
-        email: EditText,
-        name: EditText,
-        surname: EditText,
-        phone: EditText,
-        password: EditText
+        email: String,
+        name: String,
+        surname: String,
+        phone: String,
+        password: String
     ) {
-        authObj.updateUserDataWithPass(email.text.toString(), password.text.toString(), name.text.toString(),
-        surname.text.toString(), phone.text.toString().toLong(), image, UpdateProfileFormActivity(), userFirebase, error)
+        authObj.updateUserDataWithPass(email, password, name,
+        surname, phone.toLong(), image, UpdateProfileFormActivity(), userFirebase, error)
     }
 }

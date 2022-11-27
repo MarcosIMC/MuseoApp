@@ -22,9 +22,9 @@ class DetailItemActivity : AppCompatActivity() {
         val bundle = intent.extras
         val id_item = bundle?.getSerializable("id_item") as? GalleryModelSerializable
 
-        if (id_item != null){
+            if (id_item != null){
             val gallery : GalleryModelSerializable? = id_item
-            binding.textViewTitle.text = gallery!!.name
+            supportActionBar?.title = gallery?.name
             binding.textViewDescription.text = gallery!!.long_description
             Glide.with(this).load(gallery.image).centerCrop().error(
                 R.drawable.ic_baseline_broken_image_24

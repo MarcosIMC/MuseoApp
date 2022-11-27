@@ -43,4 +43,11 @@
     <string name="error_password_different">Las passwords no coinciden.</string>
     <string name="error_permission_gallery">Debes aceptar los permisos de acceso al almacenamiento.</string>
     <string name="floating_button">QR Scanner</string>
+    <string name="name">Nombre</string>
+    <string name="email_museum">museum_app@gmail.com</string>
+    <string name="tlf_museum">928-555-888</string>
+    <string name="url_twitter">https://twitter.com/</string>
+    <string name="url_facebook">https://es-es.facebook.com/</string>
+    <string name="url_instagram">https://www.instagram.com/</string>
+    <string name="url_pinterest">https://www.pinterest.es/</string>
 </resources>

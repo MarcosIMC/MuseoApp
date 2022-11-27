@@ -2,6 +2,7 @@ package com.example.museoapp.ui.user
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,7 +35,11 @@ class UserFragment : Fragment() {
         _binding = FragmentUserLoginBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        _binding!!.buttonLogin.setOnClickListener { userViewModel!!.signInWithEmail(binding.textEmail.text.toString(), binding.textPassword.text.toString()) }
+        _binding!!.buttonLogin.setOnClickListener {
+            if (checkLabels()){
+                userViewModel!!.signInWithEmail(binding.textEmail.editText?.text.toString(), binding.textPassword.editText?.text.toString())
+            }
+        }
         _binding!!.buttonSignup.setOnClickListener { intent = Intent(activity, RegisterUserActivity::class.java)
             startActivity(intent) }
 
@@ -51,6 +56,24 @@ class UserFragment : Fragment() {
         })
 
         return root
+    }
+
+    private fun checkLabels(): Boolean {
+        var isValid = true
+        if (TextUtils.isEmpty(binding.textEmail.editText?.text.toString())){
+            binding.textEmail.error = getString(R.string.error_email_user)
+            isValid = false
+        }else {
+            binding.textEmail.error = null
+        }
+
+        if (TextUtils.isEmpty(binding.textPassword.editText?.text.toString())){
+            binding.textPassword.error = getString(R.string.error_password_user)
+            isValid = false
+        }else {
+            binding.textPassword.error = null
+        }
+        return  isValid
     }
 
     override fun onDestroyView() {
