@@ -1,4 +1,5 @@
 <resources>
+    <string name="title_user_profile">Perfil de usuario</string>
     <string name="app_name">MuseoApp</string>
     <string name="login_mail">Correo electrónico…</string>
     <string name="login_password">Contraseña…</string>
