@@ -11,12 +11,16 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
 import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileInputStream
 
 class Storage {
     val storage = Firebase.storage
     var storageRef = storage.reference
     var imageRef : StorageReference = storageRef.child("userImage")
+    var songRef: StorageReference = storageRef.child("audioGallery")
     var downloadUrl: Uri? = null
+    private var galleryFireBase = GalleryFireBase()
     //private var auth = Auth()
 
     fun uploadFile(auth:Auth,
@@ -51,5 +55,26 @@ class Storage {
 
     fun downloadFile(uid: String){
 
+    }
+
+    //Sube archivos desde local
+    fun uploadAudio(id_gallery: String, path: String) {
+        var file = Uri.fromFile(File(path))
+        val audioRef = storageRef.child(id_gallery+"/${file.lastPathSegment}")
+
+        var uploadTask = audioRef.putFile(file).continueWithTask { task ->
+            if (!task.isSuccessful){
+                task.exception?.let {
+                    throw it
+                }
+            }
+            audioRef.child(id_gallery).downloadUrl
+        }.addOnCompleteListener { task ->
+            downloadUrl = task.result
+            //Se debe actualizar el Gallery en FB
+            galleryFireBase.updateAudio(id_gallery, downloadUrl.toString())
+        }.addOnFailureListener{
+            //Se debe notificar al usuario del error
+        }
     }
 }
