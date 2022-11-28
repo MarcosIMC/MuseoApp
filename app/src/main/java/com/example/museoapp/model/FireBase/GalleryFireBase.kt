@@ -9,6 +9,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.getValue
+import java.net.URI
 
 class GalleryFireBase {
     private var firebaseDB = FireBase()
@@ -67,5 +68,13 @@ class GalleryFireBase {
             }
         }
         myRef?.child("gallery")?.addValueEventListener(galleriesListener)
+    }
+
+    fun updateAudio(id_gallery: String, path: String) {
+        myRef?.child("gallery")?.child(id_gallery)?.child("audio")?.setValue(path)?.addOnCompleteListener {
+            Log.i(TAG, "Se acaba de actualizar la URL del audio para el objeto: " + id_gallery)
+        }?.addOnFailureListener {
+            Log.e(TAG, "Se produce un error al intentar actualizar la URL del audio: " + it.toString())
+        }
     }
 }
