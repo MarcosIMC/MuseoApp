@@ -51,4 +51,6 @@
     <string name="url_facebook">https://es-es.facebook.com/</string>
     <string name="url_instagram">https://www.instagram.com/</string>
     <string name="url_pinterest">https://www.pinterest.es/</string>
+    <string name="play">Reproducir</string>
+    <string name="pause">Pausar</string>
 </resources>
