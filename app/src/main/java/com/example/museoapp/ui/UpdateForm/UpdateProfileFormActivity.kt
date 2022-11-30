@@ -15,13 +15,12 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
-import androidx.navigation.findNavController
-import androidx.navigation.ui.NavigationUI
 import com.example.museoapp.R
 import com.example.museoapp.ViewModel.UpdateProfileViewModel
 import com.example.museoapp.ViewModel.UserDataViewModel
 import com.example.museoapp.databinding.ActivityUpdateProfileFormBinding
 import com.example.museoapp.model.FireBase.Auth
+import com.example.museoapp.model.FireBase.UserFireBase
 import com.example.museoapp.model.UserModel
 import com.google.firebase.auth.FirebaseUser
 
@@ -30,6 +29,7 @@ class UpdateProfileFormActivity : AppCompatActivity() {
     private val updateProfileViewModel: UpdateProfileViewModel by viewModels()
     private val userViewModel : UserDataViewModel by viewModels()
     private var authObj = Auth()
+    private var userFirebase = UserFireBase()
     private var auth = authObj.getAuth()
     private var drawable : BitmapDrawable? = null
 
@@ -80,6 +80,7 @@ class UpdateProfileFormActivity : AppCompatActivity() {
                         binding.editTextUserNameUpdate.editText?.text.toString(),
                         binding.editTextUserSurnameUpdate.editText?.text.toString(),
                         binding.editTextPhoneUserUpdate.editText?.text.toString(),
+                        userFirebase.getListGallery() as MutableMap<String, Boolean>,
                         binding.editTextPasswordUserUpdate.editText?.text.toString()
                     )
                 }

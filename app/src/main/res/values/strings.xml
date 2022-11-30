@@ -53,4 +53,6 @@
     <string name="url_pinterest">https://www.pinterest.es/</string>
     <string name="play">Reproducir</string>
     <string name="pause">Pausar</string>
+    <string name="favourites">Lista de favoritos</string>
+    <string name="error_get_user">No se pudo obtener datos del usuario</string>
 </resources>

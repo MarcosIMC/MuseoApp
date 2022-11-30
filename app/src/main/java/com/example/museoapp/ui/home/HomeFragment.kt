@@ -43,7 +43,7 @@ class HomeFragment : Fragment() {
             if (it != null){
                 elementsGallery = it
                 val recyclerView = binding.recyclerView
-                val adapter = ItemAdapter(this, it)
+                val adapter = ItemAdapter(context!!, it)
                 recyclerView.adapter = adapter
                 adapter.setOnItemClickListener(object : ItemAdapter.onItemClickListener{
                     override fun onItemClick(position: Int) {

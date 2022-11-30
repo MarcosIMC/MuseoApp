@@ -89,7 +89,9 @@
         android:text="@string/button_signup"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/button_login"
-        app:layout_constraintTop_toBottomOf="@+id/textPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/textPassword"
+        app:strokeColor="@color/primary_app"
+        app:strokeWidth="3dp" />
 
     <Button
         android:id="@+id/button_login_google"

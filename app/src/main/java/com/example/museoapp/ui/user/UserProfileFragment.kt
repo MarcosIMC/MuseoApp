@@ -1,7 +1,6 @@
 package com.example.museoapp.ui.user
 
 import android.content.ContentValues.TAG
-import android.content.Intent
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.util.Log
@@ -14,8 +13,6 @@ import com.example.museoapp.R
 import com.example.museoapp.ViewModel.UserDataViewModel
 import com.example.museoapp.databinding.FragmentUserProfileBinding
 import com.example.museoapp.model.FireBase.Auth
-import com.example.museoapp.ui.DetailItem.DetailItemActivity
-import com.example.museoapp.ui.UpdateForm.UpdateProfileFormActivity
 
 class UserProfileFragment : Fragment() {
 
@@ -44,12 +41,14 @@ class UserProfileFragment : Fragment() {
             if (it != null && currentUser != null){
                 Glide.with(activity!!).load(it.image).centerCrop().placeholder(R.drawable.ic_baseline_broken_image_24).error(
                     com.google.android.material.R.drawable.mtrl_ic_error).timeout(500).override(204,190).into(binding.imageViewProfile)
-                binding.textViewName.text = currentUser.displayName
+                var fullName = currentUser.displayName + " " + it.surname
+                binding.textViewName.text = fullName
                 binding.textViewEmail.text = currentUser.email
-                binding.textViewSurname.text = it.surname
                 binding.textViewTlf.text = it.tlf.toString()
             }
         }
+
+        binding.btnFavourites.setOnClickListener { userProfileViewModel!!.launchListFavourites(activity) }
 
         //return inflater.inflate(R.layout.fragment_user_profile, container, true)
         return root
