@@ -14,5 +14,8 @@ class UserDataViewModel : ViewModel(){
         userFireBase.getUserData(id_user, userDatas, error)
     }
 
-
+    @JvmName("getUserDatas1")
+    fun getUserDatas(): MutableLiveData<UserModel> {
+        return userDatas
+    }
 }

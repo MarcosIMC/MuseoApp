@@ -1,5 +1,6 @@
 package com.example.museoapp.model.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +14,7 @@ import com.example.museoapp.model.GalleryModel
 import com.example.museoapp.ui.home.HomeFragment
 
 class ItemAdapter(
-    private val context: HomeFragment,
+    private val context: Context,
     private val dataset: MutableList<GalleryModel>
 ) : RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {
 

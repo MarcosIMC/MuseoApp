@@ -1,7 +1,6 @@
 package com.example.museoapp.ui.user
 
 import android.content.ContentValues.TAG
-import android.content.Intent
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.util.Log
@@ -14,8 +13,8 @@ import com.example.museoapp.R
 import com.example.museoapp.ViewModel.UserDataViewModel
 import com.example.museoapp.databinding.FragmentUserProfileBinding
 import com.example.museoapp.model.FireBase.Auth
-import com.example.museoapp.ui.DetailItem.DetailItemActivity
-import com.example.museoapp.ui.UpdateForm.UpdateProfileFormActivity
+import com.example.museoapp.model.adapter.ItemAdapter
+import com.example.museoapp.ui.home.HomeViewModel
 
 class UserProfileFragment : Fragment() {
 
@@ -39,15 +38,33 @@ class UserProfileFragment : Fragment() {
         _binding = FragmentUserProfileBinding.inflate(layoutInflater)
         val root: View = binding.root
         userProfileViewModel = ViewModelProvider(this).get(UserProfileViewModel::class.java)
+        val homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
 
         userViewModel.userDatas.observe(viewLifecycleOwner) {
             if (it != null && currentUser != null){
                 Glide.with(activity!!).load(it.image).centerCrop().placeholder(R.drawable.ic_baseline_broken_image_24).error(
                     com.google.android.material.R.drawable.mtrl_ic_error).timeout(500).override(204,190).into(binding.imageViewProfile)
-                binding.textViewName.text = currentUser.displayName
+                var fullName = currentUser.displayName + " " + it.surname
+                binding.textViewName.text = fullName
                 binding.textViewEmail.text = currentUser.email
-                binding.textViewSurname.text = it.surname
                 binding.textViewTlf.text = it.tlf.toString()
+
+                userProfileViewModel!!.loadFavourites(it.gallery)
+            }
+        }
+
+        userProfileViewModel!!.galleriesFavouritesObjects.observe(viewLifecycleOwner) {
+            if (it != null) {
+                //elementsGallery = it
+                val recyclerView = binding.recyclerViewFavourites
+                val adapter = ItemAdapter(context!!, it)
+                recyclerView.adapter = adapter
+                adapter.setOnItemClickListener(object : ItemAdapter.onItemClickListener{
+                    override fun onItemClick(position: Int) {
+                        homeViewModel.itemClicked(position, it, activity)
+                    }
+                })
+                recyclerView.setHasFixedSize(true)
             }
         }
 

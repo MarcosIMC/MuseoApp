@@ -19,6 +19,13 @@
         android:theme="@style/Theme.MuseoApp"
         tools:targetApi="31">
         <activity
+            android:name=".ui.user.ListFavouritesActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".ui.UpdateForm.UpdateProfileFormActivity"
             android:exported="false">
             <meta-data

@@ -6,6 +6,7 @@ import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.museoapp.LoginActivity
+import com.example.museoapp.model.GalleryModel
 import com.example.museoapp.ui.user.RegisterUserActivity
 import com.example.museoapp.model.UserModel
 import com.example.museoapp.ui.UpdateForm.UpdateProfileFormActivity
@@ -65,6 +66,7 @@ class Auth() {
         surname: String,
         tlf: Long,
         image: Uri?,
+        gallery: MutableMap<String, Boolean>,
         activity: RegisterUserActivity,
         userFirebase: MutableLiveData<FirebaseUser?>,
         error: MutableLiveData<String?>
@@ -73,7 +75,7 @@ class Auth() {
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "createUserWithEmail:success")
-                    updateNewUserData(auth.currentUser, name, surname, tlf, image, activity, userFirebase, error)
+                    updateNewUserData(auth.currentUser, name, surname, tlf, image, gallery,  activity, userFirebase, error)
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w(TAG, "createUserWithEmail:failure", task.exception)
@@ -89,6 +91,7 @@ class Auth() {
         name: String,
         surname: String,
         tlf: Long,
+        gallery: MutableMap<String, Boolean>,
         image: Bitmap?,
         activity: UpdateProfileFormActivity,
         userFirebase: MutableLiveData<FirebaseUser?>,
@@ -101,7 +104,7 @@ class Auth() {
 
         auth.currentUser!!.updateProfile(profileUserUpdates).addOnCompleteListener(activity) { task ->
             if (task.isSuccessful){
-                updateUserData(auth.currentUser!!.uid, name, surname, tlf, image, 0, userFirebase, error)
+                updateUserData(auth.currentUser!!.uid, name, surname, tlf, image, gallery, 0, userFirebase, error)
 
                 if (userFirebase.value != null) {
                     if (!auth.currentUser!!.email.equals(email)){
@@ -145,14 +148,15 @@ class Auth() {
         surname: String,
         tlf: Long,
         image: Bitmap?,
+        gallery: MutableMap<String, Boolean>,
         role: Int,
         userFirebase: MutableLiveData<FirebaseUser?>,
         error: MutableLiveData<String?>
     ) {
         if (image != null){
-            storage.uploadFile(Auth(), uid, name, surname, tlf, image, role, userFirebase, error)
+            storage.uploadFile(Auth(), uid, name, surname, tlf, image, gallery, role, userFirebase, error)
         }
-        writeNewUser(uid, name, surname, tlf, null, role, userFirebase, error)
+        writeNewUser(uid, name, surname, tlf, null, gallery, role, userFirebase, error)
     }
 
     private fun updateNewUserData(
@@ -161,6 +165,7 @@ class Auth() {
         surname: String,
         tlf: Long,
         image: Uri?,
+        gallery: MutableMap<String, Boolean>,
         activity: RegisterUserActivity,
         userFirebase: MutableLiveData<FirebaseUser?>,
         error: MutableLiveData<String?>
@@ -173,7 +178,7 @@ class Auth() {
         currentUser!!.updateProfile(profileUserUpdates).addOnCompleteListener(activity){ task ->
             if (task.isSuccessful){
                 Log.d(TAG, "User profile updated")
-                writeNewUser(currentUser.uid, name, surname, tlf, null, 0, userFirebase, error)
+                writeNewUser(currentUser.uid, name, surname, tlf, null, gallery,0, userFirebase, error)
             }else{
                 error.value = "Register failed."
                 userFirebase.value = null
@@ -187,12 +192,13 @@ class Auth() {
         surname: String,
         tlf: Long,
         image: String?,
+        gallery: MutableMap<String, Boolean>,
         role: Int,
         userFirebase: MutableLiveData<FirebaseUser?>,
         error: MutableLiveData<String?>
     ) {
         Log.i(TAG, "Valor de image: " + image)
-        val newUser = UserModel(name, surname, image, tlf, role)
+        val newUser = UserModel(name, surname, image, tlf, gallery, role)
         //initializeDatabaseRef()
         println("USER UID: "+ userId)
         myRef?.child("users")?.child(userId)?.setValue(newUser)

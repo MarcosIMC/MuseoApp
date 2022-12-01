@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.museoapp.model.FireBase.Auth
+import com.example.museoapp.model.GalleryModel
 import com.example.museoapp.ui.UpdateForm.UpdateProfileFormActivity
 import com.google.firebase.auth.FirebaseUser
 
@@ -18,9 +19,10 @@ class UpdateProfileViewModel : ViewModel(){
         name: String,
         surname: String,
         phone: String,
+        gallery: MutableMap<String, Boolean>,
         password: String
     ) {
         authObj.updateUserDataWithPass(email, password, name,
-        surname, phone.toLong(), image, UpdateProfileFormActivity(), userFirebase, error)
+        surname, phone.toLong(), gallery, image, UpdateProfileFormActivity(), userFirebase, error)
     }
 }

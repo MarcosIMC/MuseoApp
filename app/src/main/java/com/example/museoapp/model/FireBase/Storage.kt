@@ -6,6 +6,7 @@ import android.net.Uri
 import android.nfc.Tag
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import com.example.museoapp.model.GalleryModel
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.StorageReference
@@ -29,6 +30,7 @@ class Storage {
                    surname: String,
                    tlf: Long,
                    image: Bitmap?,
+                   gallery: MutableMap<String, Boolean>,
                    role: Int,
                    userFirebase: MutableLiveData<FirebaseUser?>,
                    error: MutableLiveData<String?>
@@ -47,9 +49,9 @@ class Storage {
             imageRef.child(userId).downloadUrl
         }.addOnCompleteListener { task ->
             downloadUrl = task.result
-            auth.writeNewUser(userId, name, surname, tlf, downloadUrl.toString(), role, userFirebase, error)
+            auth.writeNewUser(userId, name, surname, tlf, downloadUrl.toString(), gallery, role, userFirebase, error)
         }.addOnFailureListener{
-            auth.writeNewUser(userId, name, surname, tlf, null, role, userFirebase, error)
+            auth.writeNewUser(userId, name, surname, tlf, null, gallery, role, userFirebase, error)
         }
     }
 

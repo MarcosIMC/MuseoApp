@@ -25,6 +25,10 @@ class GalleryViewModel : ViewModel() {
         }
     }
 
+    fun getSelectedElements(list: Set<String>) {
+        galleryFireBase.getSelected(list, galleriesObjects, error)
+    }
+
     fun getMainImages(){
         viewModelScope.launch(Dispatchers.IO) {
             galleryFireBase.getMainImages(galleriesImage, error)
