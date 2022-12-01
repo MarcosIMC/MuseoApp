@@ -4,15 +4,15 @@
     <group
         android:id="@+id/user_profile_group">
         <item
-            android:id="@+id/log_out_button"
-            android:icon="@drawable/ic_baseline_logout_24"
-            android:title="@string/log_out"
-            app:showAsAction="ifRoom"/>
-
-        <item
             android:id="@+id/update_button"
             android:icon="@drawable/ic_baseline_create_24"
             android:title="@string/update_profile"
+            app:showAsAction="ifRoom"/>
+
+        <item
+            android:id="@+id/log_out_button"
+            android:icon="@drawable/ic_baseline_logout_24"
+            android:title="@string/log_out"
             app:showAsAction="ifRoom"/>
     </group>
 

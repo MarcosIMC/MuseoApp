@@ -56,4 +56,8 @@
     <string name="favourites">Lista de favoritos</string>
     <string name="error_get_user">No se pudo obtener datos del usuario</string>
     <string name="error_gallery">No se pudo cargar los favoritos.</string>
+    <string name="add_favourite">Añadido a favoritos.</string>
+    <string name="error_add_favourite">No se pudo añadir a favoritos.</string>
+    <string name="remove_favourite">Ya no es favorito.</string>
+    <string name="error_remove_favourite">No se pudo desmarcar de favoritos</string>
 </resources>
