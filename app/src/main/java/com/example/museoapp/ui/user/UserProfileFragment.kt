@@ -13,6 +13,8 @@ import com.example.museoapp.R
 import com.example.museoapp.ViewModel.UserDataViewModel
 import com.example.museoapp.databinding.FragmentUserProfileBinding
 import com.example.museoapp.model.FireBase.Auth
+import com.example.museoapp.model.adapter.ItemAdapter
+import com.example.museoapp.ui.home.HomeViewModel
 
 class UserProfileFragment : Fragment() {
 
@@ -36,6 +38,7 @@ class UserProfileFragment : Fragment() {
         _binding = FragmentUserProfileBinding.inflate(layoutInflater)
         val root: View = binding.root
         userProfileViewModel = ViewModelProvider(this).get(UserProfileViewModel::class.java)
+        val homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
 
         userViewModel.userDatas.observe(viewLifecycleOwner) {
             if (it != null && currentUser != null){
@@ -45,10 +48,25 @@ class UserProfileFragment : Fragment() {
                 binding.textViewName.text = fullName
                 binding.textViewEmail.text = currentUser.email
                 binding.textViewTlf.text = it.tlf.toString()
+
+                userProfileViewModel!!.loadFavourites(it.gallery)
             }
         }
 
-        binding.btnFavourites.setOnClickListener { userProfileViewModel!!.launchListFavourites(activity) }
+        userProfileViewModel!!.galleriesFavouritesObjects.observe(viewLifecycleOwner) {
+            if (it != null) {
+                //elementsGallery = it
+                val recyclerView = binding.recyclerViewFavourites
+                val adapter = ItemAdapter(context!!, it)
+                recyclerView.adapter = adapter
+                adapter.setOnItemClickListener(object : ItemAdapter.onItemClickListener{
+                    override fun onItemClick(position: Int) {
+                        homeViewModel.itemClicked(position, it, activity)
+                    }
+                })
+                recyclerView.setHasFixedSize(true)
+            }
+        }
 
         //return inflater.inflate(R.layout.fragment_user_profile, container, true)
         return root

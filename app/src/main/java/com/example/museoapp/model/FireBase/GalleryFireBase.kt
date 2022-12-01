@@ -3,6 +3,7 @@ package com.example.museoapp.model.FireBase
 import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import com.example.museoapp.R
 import com.example.museoapp.model.GalleryModel
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -13,11 +14,8 @@ class GalleryFireBase {
     private var firebaseDB = FireBase()
     private var myRef = firebaseDB.getRefDB()
 
-    fun getSelected(
-        listIds: Set<String>,
-        galleriesObjects: MutableLiveData<MutableList<GalleryModel>>,
-        errorGalleryObject: MutableLiveData<String?>) {
-        for (i in 0..listIds.size-1) {
+    /*
+            for (i in 0..listIds.size-1) {
             val galleriesListener = object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     val list = mutableListOf<GalleryModel>()
@@ -39,9 +37,43 @@ class GalleryFireBase {
                     errorGalleryObject.value = "Failed load items. Let´s try later."
                 }
             }
-            myRef?.child("gallery")?.child(listIds.elementAt(i).toString())?.addValueEventListener(galleriesListener)
+            myRef?.child("gallery")?.child("id_user_6")?.addValueEventListener(galleriesListener)
         }
 
+                myRef?.child("gallery")?.child(listIds.elementAt(0))?.get()?.addOnSuccessListener {
+            Log.i(TAG, "Valor: ${it.value}")
+            galleriesObjects.value = it.value as MutableList<GalleryModel>?
+        }?.addOnFailureListener {
+            errorGalleryObject.value = R.string.error_gallery.toString()
+        }
+     */
+
+    fun getSelected(
+        listIds: Set<String>,
+        galleriesObjects: MutableLiveData<MutableList<GalleryModel>>,
+        errorGalleryObject: MutableLiveData<String?>) {
+        Log.i(TAG, "Valor del primer elemento del SET: " + listIds.elementAt(0))
+        val list = mutableListOf<GalleryModel>()
+
+        for (i in 0..listIds.size-1) {
+            val galleriesListener = object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val gallery : GalleryModel? = snapshot.getValue<GalleryModel>()
+                    gallery?.key = listIds.elementAt(i)
+                    list.add(gallery!!)
+
+                    if (list.isNotEmpty()){
+                        Log.i(TAG, "Lista no vacia")
+                        galleriesObjects.value = list
+                    }
+                }
+                override fun onCancelled(error: DatabaseError) {
+                    Log.w(TAG,"loadGallery:onCancelled", error.toException())
+                    errorGalleryObject.value = "Failed load items. Let´s try later."
+                }
+            }
+            myRef?.child("gallery")?.child(listIds.elementAt(i))?.addValueEventListener(galleriesListener)
+        }
     }
 
     suspend fun getAll(

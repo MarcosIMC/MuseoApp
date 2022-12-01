@@ -55,4 +55,5 @@
     <string name="pause">Pausar</string>
     <string name="favourites">Lista de favoritos</string>
     <string name="error_get_user">No se pudo obtener datos del usuario</string>
+    <string name="error_gallery">No se pudo cargar los favoritos.</string>
 </resources>
