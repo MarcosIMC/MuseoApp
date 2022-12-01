@@ -49,7 +49,9 @@ class UserProfileFragment : Fragment() {
                 binding.textViewEmail.text = currentUser.email
                 binding.textViewTlf.text = it.tlf.toString()
 
-                userProfileViewModel!!.loadFavourites(it.gallery)
+                if (it.gallery != null){
+                    userProfileViewModel!!.loadFavourites(it.gallery)
+                }
             }
         }
 
