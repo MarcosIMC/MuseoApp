@@ -1,18 +1,20 @@
 package com.example.museoapp.model.FireBase
 
 import android.content.ContentValues.TAG
+import android.graphics.Bitmap
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.example.museoapp.R
 import com.example.museoapp.model.GalleryModel
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.getValue
+import kotlin.streams.asSequence
 
 class GalleryFireBase {
     private var firebaseDB = FireBase()
     private var myRef = firebaseDB.getRefDB()
+    private var storage = Storage()
 
     fun getSelected(
         listIds: Set<String>,
@@ -102,6 +104,67 @@ class GalleryFireBase {
             Log.i(TAG, "Se acaba de actualizar la URL del audio para el objeto: " + id_gallery)
         }?.addOnFailureListener {
             Log.e(TAG, "Se produce un error al intentar actualizar la URL del audio: " + it.toString())
+        }
+    }
+
+    fun createGallery(image: Bitmap?, name: String, sort_description: String, long_description: String, message: MutableLiveData<String?>, error: MutableLiveData<String?>) {
+        val key = generateKey()
+
+        if (image != null) {
+            storage.uploadImageGallery(GalleryFireBase(), key, image, name, sort_description, long_description, message, error)
+        }
+        newGallery(key, null, null, long_description, name, sort_description, key, message, error)
+    }
+
+    fun newGallery(
+        key: String,
+        urlImage: String?,
+        audio: String?,
+        long_description: String,
+        name: String,
+        sort_description: String,
+        qr_code: String,
+        message: MutableLiveData<String?>,
+        error: MutableLiveData<String?>
+    ) {
+        val gallery = GalleryModel(null, "", urlImage, long_description, sort_description, name, qr_code)
+
+        myRef?.child("gallery")?.child(key)?.setValue(gallery)?.addOnCompleteListener {
+            message.value = "Se ha creado el objeto."
+        }?.addOnFailureListener {
+            error.value = "No se pudo crear el objeto."
+        }
+    }
+
+    private fun generateKey(): String{
+        val source = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+        return java.util.Random().ints(20, 0, source.length).asSequence().map(source::get).joinToString("")
+    }
+
+    fun updateGallery(key: String?, image: Bitmap?, audio: String?, long_description: String, sort_description: String, name: String, qr_code: String, message: MutableLiveData<String?>, error: MutableLiveData<String?>) {
+        if (image != null) {
+            storage.updateImageGallery(GalleryFireBase(), key!!, image, audio, name, sort_description, long_description, message, error)
+        }
+        updateObjectGallery(key, null, audio, long_description, sort_description, name, qr_code, message, error)
+    }
+
+    fun updateObjectGallery(
+        key: String?,
+        image: String?,
+        audio: String?,
+        long_description: String,
+        sort_description: String,
+        name: String,
+        qr_code: String,
+        message: MutableLiveData<String?>,
+        error: MutableLiveData<String?>
+    ) {
+        val gallery = GalleryModel(null, audio, image, long_description, sort_description, name, qr_code)
+
+        myRef?.child("gallery")?.child(key!!)?.setValue(gallery)?.addOnCompleteListener {
+            message.value = "Se ha actualizado el objeto."
+        }?.addOnFailureListener {
+            error.value = "No se pudo actualizar el objeto."
         }
     }
 }

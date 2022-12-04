@@ -19,6 +19,9 @@
         <action
             android:id="@+id/nav_user_to_profile_user"
             app:destination="@id/userProfileFragment" />
+        <action
+            android:id="@+id/action_navigation_user_to_adminMainActivity"
+            app:destination="@id/adminMainActivity" />
     </fragment>
 
     <fragment
@@ -62,6 +65,11 @@
         android:name="com.example.museoapp.ui.UpdateForm.UpdateProfileFormActivity"
         android:label="activity_update_profile_form"
         tools:layout="@layout/activity_update_profile_form" />
+    <activity
+        android:id="@+id/adminMainActivity"
+        android:name="com.example.museoapp.ui.admin.AdminMainActivity"
+        android:label="activity_admin_main"
+        tools:layout="@layout/activity_admin_main" />
 
 
 </navigation>
