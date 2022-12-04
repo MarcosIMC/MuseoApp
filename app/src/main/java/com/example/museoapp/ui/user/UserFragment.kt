@@ -27,6 +27,7 @@ class UserFragment : Fragment() {
     lateinit var intent : Intent
     // This property is only valid between onCreateView and
     // onDestroyView.
+    private var isAdmin: Boolean = false
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -47,9 +48,18 @@ class UserFragment : Fragment() {
             startActivity(intent) }
 
         userViewModel!!.userFirebase.observe(viewLifecycleOwner, Observer { currentUser ->
-            if (currentUser != null){
-                updateUI()
+            if (currentUser != null && userViewModel!!.checkLogged()){
+                userViewModel!!.isAdmin()
             }
+        })
+
+        userViewModel!!.isAdmin.observe(viewLifecycleOwner, Observer {
+            isAdmin = false
+
+            if (it == true) {
+                isAdmin = true
+            }
+            updateUI()
         })
 
         userViewModel!!.error.observe(viewLifecycleOwner, Observer { errorMessage ->
@@ -86,12 +96,18 @@ class UserFragment : Fragment() {
 
     public override fun onStart() {
         super.onStart()
-        if(userViewModel!!.checkLogged()){
+        if(userViewModel!!.checkLogged() && !isAdmin){
             Navigation.findNavController(view!!).navigate(R.id.userProfileFragment)
+        }else if (userViewModel!!.checkLogged() && isAdmin) {
+            Navigation.findNavController(view!!).navigate(R.id.adminMainActivity)
         }
     }
 
     private fun updateUI(){
-        Navigation.findNavController(view!!).navigate(R.id.userProfileFragment)
+        if (userViewModel!!.checkLogged() && !isAdmin) {
+            Navigation.findNavController(view!!).navigate(R.id.userProfileFragment)
+        }else if (userViewModel!!.checkLogged() && isAdmin) {
+            Navigation.findNavController(view!!).navigate(R.id.adminMainActivity)
+        }
     }
 }

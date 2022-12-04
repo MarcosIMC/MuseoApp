@@ -7,6 +7,14 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
+    <uses-feature android:name="android.hardware.camera.any" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -19,7 +27,31 @@
         android:theme="@style/Theme.MuseoApp"
         tools:targetApi="31">
         <activity
-            android:name=".ui.user.ListFavouritesActivity"
+            android:name=".ui.admin.UpdateGalleryActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.admin.AdminMainActivity">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".ui.camera.CameraActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.admin.CreateGalleryActivity">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".ui.admin.CreateGalleryActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.admin.AdminMainActivity">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".ui.admin.AdminMainActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

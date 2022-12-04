@@ -7,6 +7,6 @@ data class GalleryModel(
     val long_description:String? = null,
     val sort_description:String? = null,
     val name:String? = null,
-    val qr_code:Long? = 0)
+    val qr_code:String? = null)
 
 

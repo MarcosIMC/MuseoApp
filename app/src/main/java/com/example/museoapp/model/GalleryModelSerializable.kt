@@ -44,7 +44,7 @@ class GalleryModelSerializable(item : GalleryModel) : java.io.Serializable {
         set(value) {
             field = value}
 
-    var qr_code:Long? = 0
+    var qr_code:String? = null
         get() {
             return field
         }

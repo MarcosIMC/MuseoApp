@@ -1,6 +1,5 @@
 package com.example.museoapp.ui.user
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.museoapp.LoginActivity
@@ -11,11 +10,16 @@ class UserViewModel : ViewModel() {
 
     private var authObj = Auth()
     val userFirebase = MutableLiveData<FirebaseUser?>()
+    val isAdmin = MutableLiveData<Boolean?>()
     val error = MutableLiveData<String?>()
 
     fun signInWithEmail(email:String, password:String){
         val activity = LoginActivity()
         authObj.signInWithEmailAndPassword(email, password, activity, userFirebase, error)
+    }
+
+    fun isAdmin() {
+        authObj.isAdmin(isAdmin)
     }
 
     fun checkLogged(): Boolean{

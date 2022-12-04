@@ -6,7 +6,6 @@ import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.museoapp.LoginActivity
-import com.example.museoapp.model.GalleryModel
 import com.example.museoapp.ui.user.RegisterUserActivity
 import com.example.museoapp.model.UserModel
 import com.example.museoapp.ui.UpdateForm.UpdateProfileFormActivity
@@ -16,7 +15,6 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.*
 
 class Auth() {
     private lateinit var auth: FirebaseAuth
@@ -33,9 +31,20 @@ class Auth() {
         return auth
     }
 
-    /*fun initializeDatabaseRef() {
-        myRef = FirebaseDatabase.getInstance("https://museo-app-4246f-default-rtdb.europe-west1.firebasedatabase.app/").getReference()
-    }*/
+    fun isAdmin(isAdmin: MutableLiveData<Boolean?>) {
+        myRef?.child("users")?.child(auth.currentUser!!.uid)?.child("role")?.get()
+            ?.addOnSuccessListener {
+                Log.i(TAG, "Valor de is admin: " + it.value)
+                if (it.value.toString().toInt() == 1){
+                    Log.i(TAG, "DEntro, cambia isAdmin")
+                    isAdmin.value = true
+                }else if (it.value.toString().toInt() == 0){
+                    isAdmin.value = false
+                }
+            }?.addOnFailureListener {
+                isAdmin.value = false
+            }
+    }
 
     fun checkUserSigned(): Boolean{
         val currentUser = auth.currentUser
@@ -66,7 +75,7 @@ class Auth() {
         surname: String,
         tlf: Long,
         image: Uri?,
-        gallery: MutableMap<String, Boolean>,
+        gallery: MutableMap<String, Boolean>?,
         activity: RegisterUserActivity,
         userFirebase: MutableLiveData<FirebaseUser?>,
         error: MutableLiveData<String?>
@@ -75,7 +84,8 @@ class Auth() {
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "createUserWithEmail:success")
-                    updateNewUserData(auth.currentUser, name, surname, tlf, image, gallery,  activity, userFirebase, error)
+                    updateNewUserData(auth.currentUser, name, surname, tlf, image,
+                        gallery,  activity, userFirebase, error)
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w(TAG, "createUserWithEmail:failure", task.exception)
@@ -165,7 +175,7 @@ class Auth() {
         surname: String,
         tlf: Long,
         image: Uri?,
-        gallery: MutableMap<String, Boolean>,
+        gallery: MutableMap<String, Boolean>?,
         activity: RegisterUserActivity,
         userFirebase: MutableLiveData<FirebaseUser?>,
         error: MutableLiveData<String?>
@@ -192,7 +202,7 @@ class Auth() {
         surname: String,
         tlf: Long,
         image: String?,
-        gallery: MutableMap<String, Boolean>,
+        gallery: MutableMap<String, Boolean>?,
         role: Int,
         userFirebase: MutableLiveData<FirebaseUser?>,
         error: MutableLiveData<String?>
