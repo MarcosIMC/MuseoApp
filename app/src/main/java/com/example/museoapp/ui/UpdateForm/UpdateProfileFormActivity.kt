@@ -32,6 +32,7 @@ class UpdateProfileFormActivity : AppCompatActivity() {
     private var userFirebase = UserFireBase()
     private var auth = authObj.getAuth()
     private var drawable : BitmapDrawable? = null
+    private lateinit var favourites: MutableMap<String, Boolean>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +50,7 @@ class UpdateProfileFormActivity : AppCompatActivity() {
         userViewModel.getUserDatas(currentUser!!.uid)
         userViewModel.userDatas.observe(this) {
             if (it != null){
+                favourites = it.gallery as MutableMap<String, Boolean>
                 loadLabels(currentUser, it)
             }
         }
@@ -80,7 +82,7 @@ class UpdateProfileFormActivity : AppCompatActivity() {
                         binding.editTextUserNameUpdate.editText?.text.toString(),
                         binding.editTextUserSurnameUpdate.editText?.text.toString(),
                         binding.editTextPhoneUserUpdate.editText?.text.toString(),
-                        userFirebase.getListGallery() as MutableMap<String, Boolean>,
+                        favourites,
                         binding.editTextPasswordUserUpdate.editText?.text.toString()
                     )
                 }

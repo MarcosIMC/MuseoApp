@@ -40,8 +40,6 @@ class DetailItemActivity : AppCompatActivity() {
             detailViewModel.getFavourites()
         }
 
-
-
         binding = ActivityDetailItemBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val bundle = intent.extras
@@ -151,6 +149,11 @@ class DetailItemActivity : AppCompatActivity() {
                     detailViewModel.removeFavourite(id_item)
                 }
 
+                true
+            }
+
+            android.R.id.home -> {
+                finish()
                 true
             }
 
