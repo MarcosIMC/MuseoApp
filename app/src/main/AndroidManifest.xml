@@ -81,8 +81,7 @@
         </activity>
         <activity
             android:name=".ui.DetailItem.DetailItemActivity"
-            android:exported="false"
-            android:parentActivityName=".MainViewActivity">
+            android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
