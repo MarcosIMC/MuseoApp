@@ -24,6 +24,7 @@
         android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:hardwareAccelerated="true"
         android:theme="@style/Theme.MuseoApp"
         tools:targetApi="31">
         <activity
@@ -129,6 +130,9 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+        <activity android:name="com.journeyapps.barcodescanner.CaptureActivity"
+            android:screenOrientation="portrait"
+            tools:replace="screenOrientation"/>
     </application>
 
 </manifest>

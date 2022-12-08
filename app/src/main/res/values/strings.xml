@@ -70,4 +70,6 @@
     <string name="error_sort_description">El campo es obligatorio.</string>
     <string name="error_long_description">El campo es obligatorio.</string>
     <string name="label_image_gallery">Imagen de la obra</string>
+    <string name="prompt_qr">Debe enfocar a un QR</string>
+    <string name="error_qr">No se pudo obtener el dato.</string>
 </resources>
