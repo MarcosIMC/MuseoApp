@@ -1,9 +1,11 @@
 package com.example.museoapp.model.FireBase
 
 import android.content.ContentValues.TAG
+import android.content.res.Resources
 import android.graphics.Bitmap
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import com.example.museoapp.R
 import com.example.museoapp.model.GalleryModel
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -165,6 +167,22 @@ class GalleryFireBase {
             message.value = "Se ha actualizado el objeto."
         }?.addOnFailureListener {
             error.value = "No se pudo actualizar el objeto."
+        }
+    }
+
+    fun getItem(id_item: String, item: MutableLiveData<MutableList<GalleryModel>>, error: MutableLiveData<String?>?) {
+        val list = mutableListOf<GalleryModel>()
+        myRef?.child("gallery")?.child(id_item)?.get()?.addOnSuccessListener {
+            val gallery : GalleryModel? = it.getValue<GalleryModel>()
+            gallery?.key = id_item
+            list.add(gallery!!)
+
+            if (list.isNotEmpty()){
+                Log.i(TAG, "Lista no vacia")
+                item.value = list
+            }
+        }?.addOnFailureListener {
+            error?.value = Resources.getSystem().getString(R.string.error_qr)
         }
     }
 }

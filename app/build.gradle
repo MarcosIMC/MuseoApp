@@ -39,6 +39,10 @@ android {
     }
 }
 
+repositories {
+    mavenCentral()
+}
+
 dependencies {
 
     implementation 'androidx.core:core-ktx:1.7.0'
@@ -92,4 +96,7 @@ dependencies {
 
     implementation "androidx.camera:camera-view:${camerax_version}"
     implementation "androidx.camera:camera-extensions:${camerax_version}"
+
+    //Zxing QR code
+    implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
 }

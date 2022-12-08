@@ -1,15 +1,23 @@
 package com.example.museoapp
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.*
 import com.example.museoapp.databinding.ActivityMainViewBinding
+import com.example.museoapp.model.FireBase.GalleryFireBase
+import com.example.museoapp.model.GalleryModel
+import com.example.museoapp.ui.home.HomeViewModel
 import com.google.android.material.navigation.NavigationView
-import com.google.android.material.snackbar.Snackbar
+import com.google.zxing.integration.android.IntentIntegrator
+import com.google.zxing.integration.android.IntentResult
 
 class MainViewActivity : AppCompatActivity() {
 
@@ -25,8 +33,7 @@ class MainViewActivity : AppCompatActivity() {
 
         //Floatting Button
         binding.appBarMain.fab.setOnClickListener{ view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+            initScanner()
         }
 
         //Bottom Navigation
@@ -48,6 +55,38 @@ class MainViewActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navTopView.setupWithNavController(navController)
         navBottomView.setupWithNavController(navController)
+    }
+
+    private fun initScanner() {
+        val integrator = IntentIntegrator(this)
+        integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE)
+        integrator.setPrompt(getString(R.string.prompt_qr))
+        integrator.setTorchEnabled(false)
+        integrator.setBeepEnabled(true)
+        integrator.initiateScan()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        val result: IntentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
+
+        if (result != null) {
+            if (result.contents == null) {
+                Toast.makeText(this, "Cancelado", Toast.LENGTH_SHORT).show()
+            }else {
+                Toast.makeText(this, "El valor es: ${result.contents}", Toast.LENGTH_SHORT).show()
+                val galleryFireBase = GalleryFireBase()
+                val list = MutableLiveData<MutableList<GalleryModel>>()
+                galleryFireBase.getItem("9J4I4Sn1hTQc6EtwXe04", list, null)
+                list.observe(this) {
+                    if (it != null){
+                        val homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+                        homeViewModel.itemClicked(0, it, this)
+                    }
+                }
+            }
+        }else {
+            super.onActivityResult(requestCode, resultCode, data)
+        }
     }
 
     //Acciones del Burger Menu (Abrir y Cerrar)
