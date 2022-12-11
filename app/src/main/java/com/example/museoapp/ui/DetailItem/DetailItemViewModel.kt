@@ -43,7 +43,7 @@ class DetailItemViewModel : ViewModel() {
         binding.textViewDescription.text = gallery!!.long_description
         val url_audio = gallery.audio.toString()
         Log.i(ContentValues.TAG, "Valor del audio: " + url_audio)
-        Glide.with(detailItemActivity).load(gallery.image).centerCrop().error(
+        Glide.with(detailItemActivity).load(gallery.image).centerInside().error(
             R.drawable.ic_baseline_broken_image_24
         ).timeout(600).into(binding.imageGallery)
         return url_audio
