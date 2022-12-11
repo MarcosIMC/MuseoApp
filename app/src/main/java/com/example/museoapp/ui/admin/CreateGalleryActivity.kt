@@ -8,7 +8,6 @@ import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -17,7 +16,6 @@ import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import com.example.museoapp.R
 import com.example.museoapp.databinding.ActivityCreateGalleryBinding
-import com.example.museoapp.ui.camera.CameraActivity
 
 class CreateGalleryActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCreateGalleryBinding
@@ -35,8 +33,7 @@ class CreateGalleryActivity : AppCompatActivity() {
         //Permisos para la galería
         binding.buttonGallery.setOnClickListener { requestPermission() }
         binding.buttonCamera.setOnClickListener {
-            intent = Intent(this, CameraActivity::class.java)
-            startActivity(intent)
+            createGalleryViewModel.startCamera(this)
         }
     }
 
@@ -83,8 +80,7 @@ class CreateGalleryActivity : AppCompatActivity() {
     private fun pickPhotoFormGallery() {
         val intent = Intent(Intent.ACTION_GET_CONTENT)
         intent.type = "image/*"
-        startForActivityGallery.launch(intent)
-    }
+        startForActivityGallery.launch(intent)    }
 
     //Agregamos las opciones del menu
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -96,7 +92,7 @@ class CreateGalleryActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.check_update_button -> {
-                if (checkLabels()) {
+                if (createGalleryViewModel.checkLabels(binding, this)) {
                     createGalleryViewModel.createGallery(
                         drawable?.bitmap,
                         binding.editTextTitleGallery.editText?.text.toString(),
@@ -109,32 +105,5 @@ class CreateGalleryActivity : AppCompatActivity() {
                 super.onOptionsItemSelected(item)
             }
         }
-    }
-
-    private fun checkLabels(): Boolean {
-        var isValid = true
-
-        if (TextUtils.isEmpty(binding.editTextTitleGallery.editText?.text.toString())){
-            binding.editTextTitleGallery.error = getString(R.string.error_title_gallery)
-            isValid = false
-        }else {
-            binding.editTextTitleGallery.error = null
-        }
-
-        if (TextUtils.isEmpty(binding.editTextSortDescriptionGallery.editText?.text.toString())){
-            binding.editTextSortDescriptionGallery.error = getString(R.string.error_sort_description)
-            isValid = false
-        }else {
-            binding.editTextSortDescriptionGallery.error = null
-        }
-
-        if (TextUtils.isEmpty(binding.editTextLongDescriptionGallery.editText?.text.toString())){
-            binding.editTextLongDescriptionGallery.error = getString(R.string.error_long_description)
-            isValid = false
-        }else {
-            binding.editTextLongDescriptionGallery.error = null
-        }
-
-        return isValid
     }
 }

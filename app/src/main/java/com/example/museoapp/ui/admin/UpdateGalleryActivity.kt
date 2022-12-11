@@ -8,14 +8,12 @@ import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
-import com.bumptech.glide.Glide
 import com.example.museoapp.R
 import com.example.museoapp.databinding.ActivityUpdateGalleryBinding
 import com.example.museoapp.model.GalleryModelSerializable
@@ -38,20 +36,11 @@ class UpdateGalleryActivity : AppCompatActivity() {
         item_object = bundle?.getSerializable("id_item") as GalleryModelSerializable?
 
         if (item_object?.key != null){
-            loadLabels()
+            updateGalleryViewModel.loadLabels(binding, this, item_object!!)
         }
 
         //Permisos galeria
         binding.buttonGallery.setOnClickListener { requestPermission() }
-    }
-
-    private fun loadLabels() {
-        supportActionBar?.title = item_object?.name
-        Glide.with(this).load(item_object?.image).centerCrop().placeholder(R.drawable.ic_baseline_broken_image_24).error(
-            com.google.android.material.R.drawable.mtrl_ic_error).timeout(500).override(204,190).into(binding.imageViewGallery)
-        binding.editTextTitleGallery.editText?.setText(item_object?.name)
-        binding.editTextSortDescriptionGallery.editText?.setText(item_object?.sort_description)
-        binding.editTextLongDescriptionGallery.editText?.setText(item_object?.long_description)
     }
 
     //Abrir la galeria de imagenes
@@ -110,7 +99,7 @@ class UpdateGalleryActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.check_update_button -> {
-                if (checkLabels()) {
+                if (updateGalleryViewModel.checkLabels(binding, this)) {
                     updateGalleryViewModel.updateGallery(
                         item_object,
                         drawable?.bitmap,
@@ -124,32 +113,5 @@ class UpdateGalleryActivity : AppCompatActivity() {
                 super.onOptionsItemSelected(item)
             }
         }
-    }
-
-    private fun checkLabels(): Boolean {
-        var isValid = true
-
-        if (TextUtils.isEmpty(binding.editTextTitleGallery.editText?.text.toString())){
-            binding.editTextTitleGallery.error = getString(R.string.error_title_gallery)
-            isValid = false
-        }else {
-            binding.editTextTitleGallery.error = null
-        }
-
-        if (TextUtils.isEmpty(binding.editTextSortDescriptionGallery.editText?.text.toString())){
-            binding.editTextSortDescriptionGallery.error = getString(R.string.error_sort_description)
-            isValid = false
-        }else {
-            binding.editTextSortDescriptionGallery.error = null
-        }
-
-        if (TextUtils.isEmpty(binding.editTextLongDescriptionGallery.editText?.text.toString())){
-            binding.editTextLongDescriptionGallery.error = getString(R.string.error_long_description)
-            isValid = false
-        }else {
-            binding.editTextLongDescriptionGallery.error = null
-        }
-
-        return isValid
     }
 }

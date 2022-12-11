@@ -170,7 +170,7 @@ class InformationFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMyLocati
             REQUEST_CODE_LOCATION -> if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 map.isMyLocationEnabled = true
             }else {
-                Toast.makeText(activity, "Para poder visualizar el mapa, debes aceptar los permisos.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, getString(R.string.error_map), Toast.LENGTH_SHORT).show()
             }
             else -> {}
         }
@@ -181,7 +181,7 @@ class InformationFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMyLocati
         if (!isPermissionsGranted()){
             if (!::map.isInitialized) return
             map.isMyLocationEnabled = false
-            Toast.makeText(activity, "Ve a ajustes y acepta los permisos", Toast.LENGTH_SHORT).show()
+            Toast.makeText(activity, getString(R.string.error_permission_map), Toast.LENGTH_SHORT).show()
         }
     }
 

@@ -57,7 +57,7 @@ class GalleryModelSerializable(item : GalleryModel) : java.io.Serializable {
         this.audio = item.audio
         this.qr_code = item.qr_code
         this.long_description = item.long_description
-        this.sort_description = item.sort_description
+        this.sort_description = item.short_description
         this.image = item.image
     }
 }

@@ -8,7 +8,6 @@ import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -16,13 +15,10 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import com.example.museoapp.R
-import com.example.museoapp.ViewModel.UpdateProfileViewModel
 import com.example.museoapp.ViewModel.UserDataViewModel
 import com.example.museoapp.databinding.ActivityUpdateProfileFormBinding
 import com.example.museoapp.model.FireBase.Auth
 import com.example.museoapp.model.FireBase.UserFireBase
-import com.example.museoapp.model.UserModel
-import com.google.firebase.auth.FirebaseUser
 
 class UpdateProfileFormActivity : AppCompatActivity() {
     private lateinit var binding: ActivityUpdateProfileFormBinding
@@ -32,7 +28,7 @@ class UpdateProfileFormActivity : AppCompatActivity() {
     private var userFirebase = UserFireBase()
     private var auth = authObj.getAuth()
     private var drawable : BitmapDrawable? = null
-    private lateinit var favourites: MutableMap<String, Boolean>
+    private var favourites: MutableMap<String, Boolean>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,19 +46,24 @@ class UpdateProfileFormActivity : AppCompatActivity() {
         userViewModel.getUserDatas(currentUser!!.uid)
         userViewModel.userDatas.observe(this) {
             if (it != null){
-                favourites = it.gallery as MutableMap<String, Boolean>
-                loadLabels(currentUser, it)
+                if (it.gallery != null){
+                    favourites = it.gallery as MutableMap<String, Boolean>
+                }
+                updateProfileViewModel.loadLabels(currentUser, it, binding)
             }
         }
-    }
 
+        updateProfileViewModel.userFirebase.observe(this) {
+            if (it != null) {
+                updateProfileViewModel.updateUI(this)
+            }
+        }
 
-
-    private fun loadLabels(currentUser: FirebaseUser, userModel: UserModel) {
-        binding.editTextEmailAddressUpdate.editText?.setText(currentUser.email)
-        binding.editTextUserNameUpdate.editText?.setText(userModel.name)
-        binding.editTextUserSurnameUpdate.editText?.setText(userModel.surname)
-        binding.editTextPhoneUserUpdate.editText?.setText(userModel.tlf.toString())
+        updateProfileViewModel.error.observe(this) {
+            if (it != null){
+                Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     //Agregamos las opciones del menu
@@ -75,7 +76,7 @@ class UpdateProfileFormActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.check_update_button -> {
-                if (checkLabels() && checkPassword()) {
+                if (updateProfileViewModel.checkLabels(binding, this) && updateProfileViewModel.checkPassword(binding, this)) {
                     updateProfileViewModel.updateUser(
                         drawable?.bitmap,
                         binding.editTextEmailAddressUpdate.editText?.text.toString(),
@@ -142,64 +143,5 @@ class UpdateProfileFormActivity : AppCompatActivity() {
         val intent = Intent(Intent.ACTION_GET_CONTENT)
         intent.type = "image/*"
         startForActivityGallery.launch(intent)
-    }
-
-    //Comprobamos si las pass son diferentes
-    private fun checkPassword(): Boolean {
-        if (binding.editTextPasswordUserUpdate.editText?.text.toString().equals(binding.editTextPasswordRepeatUserUpdate.editText?.text.toString())) {
-            return true
-        }
-        binding.editTextPasswordUserUpdate.error = getString(R.string.error_password_different)
-        binding.editTextPasswordRepeatUserUpdate.error = getString(R.string.error_password_different)
-        return false
-    }
-
-    //Comprobamos todos los campos
-    private fun checkLabels() : Boolean {
-        var isValid = true
-        if (TextUtils.isEmpty(binding.editTextEmailAddressUpdate.editText?.text.toString())){
-            binding.editTextEmailAddressUpdate.error = getString(R.string.error_email_user)
-            isValid = false
-        }else{
-            binding.editTextEmailAddressUpdate.error = null
-        }
-
-
-        if (TextUtils.isEmpty(binding.editTextUserNameUpdate.editText?.text.toString())){
-            binding.editTextUserNameUpdate.error = getString(R.string.error_name_user)
-            isValid = false
-        }else{
-            binding.editTextUserNameUpdate.error = null
-        }
-
-        if (TextUtils.isEmpty(binding.editTextUserSurnameUpdate.editText?.text.toString())){
-            binding.editTextUserSurnameUpdate.error = getString(R.string.error_surname_user)
-            isValid = false
-        }else{
-            binding.editTextUserSurnameUpdate.error = null
-        }
-
-        if (TextUtils.isEmpty(binding.editTextPhoneUserUpdate.editText?.text.toString())){
-            binding.editTextPhoneUserUpdate.error = getString(R.string.error_tlf_user)
-            isValid = false
-        }else{
-            binding.editTextPhoneUserUpdate.error = null
-        }
-
-        if (TextUtils.isEmpty(binding.editTextPasswordUserUpdate.editText?.text.toString())){
-            binding.editTextPasswordUserUpdate.error = getString(R.string.error_password_user)
-            isValid = false
-        }else{
-            binding.editTextPasswordUserUpdate.error = null
-        }
-
-        if (TextUtils.isEmpty(binding.editTextPasswordRepeatUserUpdate.editText?.text.toString())){
-            binding.editTextPasswordRepeatUserUpdate.error = getString(R.string.error_password_user)
-            isValid = false
-        }else{
-            binding.editTextPasswordRepeatUserUpdate.error = null
-        }
-
-        return isValid
     }
 }

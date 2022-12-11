@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import com.example.museoapp.model.FireBase.Auth
 import com.example.museoapp.model.GalleryModel
 import com.example.museoapp.model.GalleryModelSerializable
-import com.example.museoapp.ui.DetailItem.DetailItemActivity
 
 class AdminMainViewModel : ViewModel() {
     private var authObj = Auth()
@@ -19,6 +18,11 @@ class AdminMainViewModel : ViewModel() {
 
     fun log_out(){
         authObj.logOut()
+    }
+
+    fun startFormAdd(adminMainActivity: AdminMainActivity) {
+        val intent = Intent(adminMainActivity, CreateGalleryActivity::class.java)
+        adminMainActivity.startActivity(intent)
     }
 
 }

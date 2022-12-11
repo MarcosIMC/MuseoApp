@@ -8,7 +8,6 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
 import java.io.ByteArrayOutputStream
-import java.io.File
 
 class Storage {
     val storage = Firebase.storage
@@ -20,16 +19,18 @@ class Storage {
     //private var galleryFireBase = GalleryFireBase()
     //private var auth = Auth()
 
-    fun uploadFile(auth:Auth,
-                   userId: String,
-                   name: String,
-                   surname: String,
-                   tlf: Long,
-                   image: Bitmap?,
-                   gallery: MutableMap<String, Boolean>,
-                   role: Int,
-                   userFirebase: MutableLiveData<FirebaseUser?>,
-                   error: MutableLiveData<String?>
+    fun uploadFile(
+        userFB: UserFireBase,
+        userId: String,
+        name: String,
+        surname: String,
+        tlf: Long,
+        image: Bitmap?,
+        gallery: MutableMap<String, Boolean>?,
+        role: Int,
+        userFirebase: MutableLiveData<FirebaseUser?>,
+        error: MutableLiveData<String?>,
+        currentUser: FirebaseUser?
     ) {
         val baos = ByteArrayOutputStream()
         image?.compress(Bitmap.CompressFormat.JPEG, 100, baos)
@@ -45,9 +46,9 @@ class Storage {
             imageRef.child(userId).downloadUrl
         }.addOnCompleteListener { task ->
             downloadUrl = task.result
-            auth.writeNewUser(userId, name, surname, tlf, downloadUrl.toString(), gallery, role, userFirebase, error)
+            userFB.writeNewUser(userId, name, surname, tlf, downloadUrl.toString(), gallery, role, userFirebase, error, currentUser)
         }.addOnFailureListener{
-            auth.writeNewUser(userId, name, surname, tlf, null, gallery, role, userFirebase, error)
+            userFB.writeNewUser(userId, name, surname, tlf, null, gallery, role, userFirebase, error, currentUser)
         }
     }
 

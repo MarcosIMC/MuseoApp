@@ -61,7 +61,7 @@ class ItemAdapter(
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val item = dataset[position]
         holder.item_name.text = item.name
-        holder.item_sort_description.text = item.sort_description
+        holder.item_sort_description.text = item.short_description
         Glide.with(context).load(item.image).centerCrop().placeholder(R.drawable.ic_baseline_broken_image_24).error(
             com.google.android.material.R.drawable.mtrl_ic_error).timeout(250).into(holder.item_image)
     }

@@ -64,12 +64,14 @@
     <string name="take_photo">Sacar foto</string>
     <string name="open_gallery">Abrir galería</string>
     <string name="editTextTitleGallery">Título</string>
-    <string name="editTextSortGallery">Descripción corta</string>
+    <string name="editTextShortGallery">Descripción corta</string>
     <string name="editTextLongGallery">Descripción</string>
     <string name="error_title_gallery">El campo es obligatorio.</string>
-    <string name="error_sort_description">El campo es obligatorio.</string>
+    <string name="error_short_description">El campo es obligatorio.</string>
     <string name="error_long_description">El campo es obligatorio.</string>
     <string name="label_image_gallery">Imagen de la obra</string>
     <string name="prompt_qr">Debe enfocar a un QR</string>
     <string name="error_qr">No se pudo obtener el dato.</string>
+    <string name="error_map">\"Para poder visualizar el mapa, debes aceptar los permisos.\"</string>
+    <string name="error_permission_map">\"Ve a ajustes y acepta los permisos\",</string>
 </resources>

@@ -1,8 +1,6 @@
 package com.example.museoapp.ui.admin
 
-import android.app.Application
 import android.content.ContentValues.TAG
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -13,13 +11,9 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation
-import androidx.navigation.findNavController
 import com.example.museoapp.R
 import com.example.museoapp.ViewModel.GalleryViewModel
 import com.example.museoapp.databinding.ActivityAdminMainBinding
-import com.example.museoapp.databinding.ActivityMainViewBinding
-import com.example.museoapp.databinding.FragmentHomeBinding
 import com.example.museoapp.model.FireBase.Auth
 import com.example.museoapp.model.adapter.ItemAdapter
 
@@ -71,8 +65,7 @@ class AdminMainActivity : AppCompatActivity(), LifecycleObserver{
 
         return when(item.itemId) {
             R.id.add_item -> {
-                val intent = Intent(this, CreateGalleryActivity::class.java)
-                startActivity(intent)
+                adminMainViewModel.startFormAdd(this)
                 true
             }
 
