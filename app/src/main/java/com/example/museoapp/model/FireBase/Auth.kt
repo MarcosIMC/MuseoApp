@@ -151,4 +151,12 @@ class Auth() {
     fun logOut(){
         Firebase.auth.signOut()
     }
+
+    fun restorePassword(email: String) {
+        auth.sendPasswordResetEmail(email).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Log.i(TAG, "Email enviado")
+            }
+        }
+    }
 }

@@ -7,11 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.example.museoapp.*
 import com.example.museoapp.databinding.FragmentUserLoginBinding
+import com.example.museoapp.ui.dialog.RestoreDialogFragment
 
 class UserFragment : Fragment() {
     companion object {
@@ -38,6 +40,26 @@ class UserFragment : Fragment() {
             if (userViewModel!!.checkLabels(binding, this)){
                 userViewModel!!.signInWithEmail(binding.textEmail.editText?.text.toString(), binding.textPassword.editText?.text.toString())
             }
+        }
+        _binding!!.buttonForgotPassword.setOnClickListener {
+            val fragmentManager = getFragmentManager()
+            val newFragment = RestoreDialogFragment()
+            if (true) {
+                // The device is using a large layout, so show the fragment as a dialog
+                newFragment.show(fragmentManager!!, "dialog")
+            } else {
+                // The device is smaller, so show the fragment fullscreen
+                val transaction = fragmentManager?.beginTransaction()
+                // For a little polish, specify a transition animation
+                transaction?.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                // To make it fullscreen, use the 'content' root view as the container
+                // for the fragment, which is always the root view for the activity
+                transaction
+                    ?.add(android.R.id.content, newFragment)
+                    ?.addToBackStack(null)
+                    ?.commit()
+            }
+
         }
         _binding!!.buttonSignup.setOnClickListener { userViewModel!!.launchSignUp(activity) }
 
