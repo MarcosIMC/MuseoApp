@@ -113,18 +113,10 @@ class Auth() {
         auth.currentUser!!.updateProfile(profileUserUpdates).addOnCompleteListener(activity) { task ->
             if (task.isSuccessful){
                 this.userFirebase.updateUserData(auth.currentUser!!.uid, name, surname, tlf, image, gallery, 0, userFirebase, error, auth.currentUser)
-
-                if (userFirebase.value != null) {
-                    if (!auth.currentUser!!.email.equals(email)){
-                        updateEmail(email, error)
-                    }
-                    updatePassword(password, error)
-
-                    val credential = EmailAuthProvider.getCredential(email, password)
-                    auth.currentUser!!.reauthenticate(credential)
-                }else {
-                    error.value = "An error ocurred when try update user."
-                }
+                /*if (!auth.currentUser!!.email.equals(email)){
+                    updateEmail(email, error, password)
+                }*/
+                //updatePassword(password, error)
             }else{
                 error.value = "Update failed."
                 userFirebase.value = null
@@ -142,9 +134,15 @@ class Auth() {
         }
     }
 
-    private fun updateEmail(email: String, error: MutableLiveData<String?>) {
+    private fun updateEmail(email: String, error: MutableLiveData<String?>, password: String) {
+        Log.i(TAG, "DEntro del updateEmail")
+        if (auth.currentUser == null) {
+            Log.i(TAG, "auth null")
+        }
         auth.currentUser!!.updateEmail(email).addOnCompleteListener { task ->
             if (task.isSuccessful){
+                val credential = EmailAuthProvider.getCredential(email, password)
+                auth.currentUser!!.reauthenticate(credential)
                 Log.i(TAG, "User mail address updated.")
             }
         }

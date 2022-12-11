@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.text.TextUtils
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.navigation.Navigation
 import com.example.museoapp.R
 import com.example.museoapp.databinding.ActivityUpdateProfileFormBinding
 import com.example.museoapp.model.FireBase.Auth
