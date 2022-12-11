@@ -74,4 +74,7 @@
     <string name="error_qr">No se pudo obtener el dato.</string>
     <string name="error_map">\"Para poder visualizar el mapa, debes aceptar los permisos.\"</string>
     <string name="error_permission_map">\"Ve a ajustes y acepta los permisos\",</string>
+    <string name="send_email">Enviar</string>
+    <string name="cancel_restore">Cancelar</string>
+    <string name="label_restore_pass">Restaurar contraseña</string>
 </resources>
