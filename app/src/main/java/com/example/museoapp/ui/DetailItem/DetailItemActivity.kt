@@ -1,29 +1,24 @@
 package com.example.museoapp.ui.DetailItem
 
-import android.content.ContentValues.TAG
 import android.media.AudioManager
 import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
-import com.bumptech.glide.Glide
 import com.example.museoapp.R
-import com.example.museoapp.ViewModel.DetailItemViewModel
 import com.example.museoapp.databinding.ActivityDetailItemBinding
 import com.example.museoapp.model.FireBase.Auth
-import com.example.museoapp.model.FireBase.UserFireBase
 import com.example.museoapp.model.GalleryModelSerializable
 
 class DetailItemActivity : AppCompatActivity() {
     private lateinit var binding:ActivityDetailItemBinding
-    private var mediaPlayer: MediaPlayer? = null
+    internal var mediaPlayer: MediaPlayer? = null
     private var url_audio: String? = null
-    private var is_playing = false
-    private var is_favourite = false
+    internal var is_playing = false
+    internal var is_favourite = false
     private var authObj = Auth()
     private var auth = authObj.getAuth()
 
@@ -45,21 +40,14 @@ class DetailItemActivity : AppCompatActivity() {
         val bundle = intent.extras
         id_item = bundle?.getSerializable("id_item") as? GalleryModelSerializable
 
-            if (id_item != null){
-            val gallery : GalleryModelSerializable? = id_item
-            supportActionBar?.title = gallery?.name
-            binding.textViewDescription.text = gallery!!.long_description
-            url_audio = gallery.audio.toString()
-                Log.i(TAG, "Valor del audio: " + url_audio)
-            Glide.with(this).load(gallery.image).centerCrop().error(
-                R.drawable.ic_baseline_broken_image_24
-            ).timeout(600).into(binding.imageGallery)
+        if (id_item != null){
+            url_audio = detailViewModel.setDatas(this, binding, id_item!!)
         }
 
         detailViewModel.favouritesId.observe(this) {
             if (it.contains(id_item?.key))   {
                 is_favourite = true
-                updateOptionsMenu(is_playing, is_favourite)
+                detailViewModel.updateOptionsMenu(is_playing, is_favourite,this)
             }
         }
     }
@@ -108,7 +96,6 @@ class DetailItemActivity : AppCompatActivity() {
                 item_stop!!.isVisible = false
             }
         }
-
         return true
     }
 
@@ -119,29 +106,28 @@ class DetailItemActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.play_button -> {
                 if (mediaPlayer == null) { setMediaPlayer() }
-                updateOptionsMenu(true, is_favourite)
-                mediaPlayer!!.start()
+                detailViewModel.updateOptionsMenu(true, is_favourite, this)
+                detailViewModel.startAudio(this)
 
                 true
             }
 
             R.id.pause_button -> {
-                updateOptionsMenu(false, is_favourite)
-                mediaPlayer!!.pause()
-
+                detailViewModel.updateOptionsMenu(false, is_favourite, this)
+                detailViewModel.pauseAudio(this)
                 true
             }
 
             R.id.close_button -> {
-                updateOptionsMenu(false, is_favourite)
-                mediaPlayer!!.stop()
-                mediaPlayer?.release()
+                detailViewModel.updateOptionsMenu(false, is_favourite, this)
+                detailViewModel.stopAudio(this)
+
                 mediaPlayer = null
                 true
             }
 
             R.id.favourite_button -> {
-                updateOptionsMenu(false, !is_favourite)
+                detailViewModel.updateOptionsMenu(false, !is_favourite, this)
 
                 if (is_favourite) {
                     detailViewModel.addFavourite(id_item)
@@ -161,13 +147,6 @@ class DetailItemActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateOptionsMenu(playing: Boolean, favourite: Boolean) {
-        is_playing = playing
-        is_favourite = favourite
-
-        this.invalidateOptionsMenu()
-    }
-
     private fun setMediaPlayer() {
         mediaPlayer = MediaPlayer().apply {
             setAudioStreamType(AudioManager.STREAM_MUSIC)
@@ -176,10 +155,9 @@ class DetailItemActivity : AppCompatActivity() {
             prepare()
 
             setOnCompletionListener {
-                updateOptionsMenu(false, is_favourite)
+                detailViewModel.updateOptionsMenu(false, is_favourite, DetailItemActivity())
             }
         }
-
     }
 
     override fun onDestroy() {

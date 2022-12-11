@@ -8,7 +8,6 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
-import com.bumptech.glide.Glide
 import com.example.museoapp.R
 import com.example.museoapp.ViewModel.UserDataViewModel
 import com.example.museoapp.databinding.FragmentUserProfileBinding
@@ -42,12 +41,7 @@ class UserProfileFragment : Fragment() {
 
         userViewModel.userDatas.observe(viewLifecycleOwner) {
             if (it != null && currentUser != null){
-                Glide.with(activity!!).load(it.image).centerCrop().placeholder(R.drawable.ic_baseline_broken_image_24).error(
-                    com.google.android.material.R.drawable.mtrl_ic_error).timeout(500).override(204,190).into(binding.imageViewProfile)
-                var fullName = currentUser.displayName + " " + it.surname
-                binding.textViewName.text = fullName
-                binding.textViewEmail.text = currentUser.email
-                binding.textViewTlf.text = it.tlf.toString()
+                userProfileViewModel!!.setDatas(binding, activity, it, currentUser)
 
                 if (it.gallery != null){
                     userProfileViewModel!!.loadFavourites(it.gallery)

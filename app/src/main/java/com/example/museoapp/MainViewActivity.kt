@@ -3,17 +3,16 @@ package com.example.museoapp
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.viewModels
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.*
+import com.example.museoapp.ViewModel.MainViewModel
 import com.example.museoapp.databinding.ActivityMainViewBinding
-import com.example.museoapp.model.FireBase.GalleryFireBase
-import com.example.museoapp.model.GalleryModel
 import com.example.museoapp.ui.home.HomeViewModel
 import com.google.android.material.navigation.NavigationView
 import com.google.zxing.integration.android.IntentIntegrator
@@ -24,6 +23,7 @@ class MainViewActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainViewBinding
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var navController: NavController
+    private val mainViewModel : MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +33,7 @@ class MainViewActivity : AppCompatActivity() {
 
         //Floatting Button
         binding.appBarMain.fab.setOnClickListener{ view ->
-            initScanner()
+            mainViewModel.initScanner(this)
         }
 
         //Bottom Navigation
@@ -57,27 +57,16 @@ class MainViewActivity : AppCompatActivity() {
         navBottomView.setupWithNavController(navController)
     }
 
-    private fun initScanner() {
-        val integrator = IntentIntegrator(this)
-        integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE)
-        integrator.setPrompt(getString(R.string.prompt_qr))
-        integrator.setTorchEnabled(false)
-        integrator.setBeepEnabled(true)
-        integrator.initiateScan()
-    }
-
+    //Cuando se recibe el result del Scanner
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         val result: IntentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
-
         if (result != null) {
             if (result.contents == null) {
                 Toast.makeText(this, "Cancelado", Toast.LENGTH_SHORT).show()
             }else {
-                Toast.makeText(this, "El valor es: ${result.contents}", Toast.LENGTH_SHORT).show()
-                val galleryFireBase = GalleryFireBase()
-                val list = MutableLiveData<MutableList<GalleryModel>>()
-                galleryFireBase.getItem("9J4I4Sn1hTQc6EtwXe04", list, null)
-                list.observe(this) {
+                //Toast.makeText(this, "El valor es: ${result.contents}", Toast.LENGTH_SHORT).show()
+                mainViewModel.getElement(result.contents)
+                mainViewModel.list.observe(this) {
                     if (it != null){
                         val homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
                         homeViewModel.itemClicked(0, it, this)
